@@ -1,0 +1,70 @@
+# Byte-compiled files
+*.pyc
+*.pyo
+pycache/
+
+# Environment variables
+.env
+
+# Flask-specific
+instance/
+*.log
+
+# Specific to this project
+pwhash.py
+uploads/
+
+# Virtual environment
+venv/
+env/
+fyp-venv/
+
+# Database files
+*.db
+*.sqlite3
+
+# SQL scripts
+*.sql
+scripts/
+
+# Pytest and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# IDE and editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.orig
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python eggs
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Node modules
+/node_modules/
+
+# Tailwind output CSS
+/app/static/dist/css/output.css
+
+# Package lock
+package-lock.json
+
+# Flowbite configuration (if any specific generated config files exist)
+flowbite.config.js 

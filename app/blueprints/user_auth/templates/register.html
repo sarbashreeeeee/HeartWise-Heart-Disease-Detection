@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Register Gar</title>
+</head>
+
+<body>
+  <form action="{{url_for('user_auth.handle_register')}}" method="POST">
+    {{form.hidden_tag()}} {{form.full_name.label}} {{form.full_name}}
+    {{form.username.label}} {{form.username}} {{form.email.label}}
+    {{form.email}} {%if form.email.errors%}
+    <h1>errors found</h1>
+    {%for error in form.email.errors %}
+    <p>error</p>
+    {%endfor%} {%endif%} {{form.password.label}} {{form.password}}
+    {{form.register_btn}}
+  </form>
+</body>
