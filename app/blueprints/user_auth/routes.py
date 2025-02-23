@@ -1,6 +1,7 @@
 from flask import redirect, render_template, url_for
 from app.blueprints.user_auth import user_auth_bp
 from app.blueprints.user_auth.forms.register import RegisterForm
+from app.models.user import User
 
 
 @user_auth_bp.route("/register", methods=["GET"])
@@ -17,9 +18,17 @@ def handle_register():
         username = register_form.username.data
         email = register_form.email.data
         password = register_form.password.data
-        print(f"khub garis {username}")
+        # print(f"well done {username}")
+        user = User(
+            full_name=full_name, username=username, email=email, password=password
+        )
+        from app import db
+
+        db.session.add(user)
+        db.session.commit()
+        return redirect("login.html")
 
     else:
         print(register_form.errors)
 
-    return redirect(url_for("user_auth.view_register"))
+    return render_template("register.html", form=register_form)

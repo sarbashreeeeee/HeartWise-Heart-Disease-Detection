@@ -12,9 +12,10 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     db.init_app(app)
-    migrate.init_app(app)
+    migrate.init_app(app, db)
     with app.app_context():
         # Import model classes here
+        from app.models.user import User
 
         # Import routes here
         from app.blueprints.user_auth import routes
