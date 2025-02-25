@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - HeartWise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              heartred: {
+                50: "#fff1f1",
+                100: "#ffe0e0",
+                200: "#ffc5c5",
+                300: "#ff9d9d",
+                400: "#ff6464",
+                500: "#ff3b3b",
+                600: "#ed1515",
+                700: "#c80d0d",
+                800: "#a50f0f",
+                900: "#881414",
+                950: "#4b0404",
+              },
+            },
+            animation: {
+              "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @keyframes heartbeat {
+        0% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.1);
+        }
+        50% {
+          transform: scale(1);
+        }
+        75% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .heartbeat {
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+      .bg-pulse::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle,
+          rgba(255, 59, 59, 0.1) 0%,
+          rgba(255, 59, 59, 0) 70%
+        );
+        animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col relative overflow-hidden"
+  >
+    <div class="bg-pulse absolute inset-0 z-0"></div>
+    <header class="bg-white dark:bg-gray-800 shadow-md relative z-10">
+      <nav class="container mx-auto px-4 sm:px-6 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <a
+              href="/"
+              class="text-xl sm:text-2xl font-bold text-heartred-600 dark:text-heartred-400 flex items-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8 sm:h-10 sm:w-10 mr-2 heartbeat"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span class="hidden sm:inline">HeartWise</span>
+            </a>
+          </div>
+          <div>
+            <button
+              id="darkModeToggle"
+              class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-heartred-500 transition-colors duration-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main class="flex-grow container mx-auto px-4 sm:px-6 py-8 relative z-10">
+      <div class="max-w-md mx-auto">
+        <div
+          class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden backdrop-filter backdrop-blur-lg bg-opacity-30 dark:bg-opacity-30 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"
+        >
+          <div class="p-6 sm:p-8">
+            <h2
+              class="text-2xl sm:text-3xl font-bold text-center mb-2 text-heartred-600 dark:text-heartred-400 animate-pulse-slow"
+            >
+              Welcome Back!
+            </h2>
+            <p class="text-center text-gray-600 dark:text-gray-400 mb-6">
+              Proud of you for taking care of your heart! Let's get started.
+            </p>
+            <form
+              action="{{url_for('user_auth.handle_register')}}"
+              method="POST"
+              class="space-y-4 sm:space-y-6"
+              id="registerForm"
+            >
+              {{form.hidden_tag()}}
+              <!-- username -->
+              <div class="group">
+                <!-- input label -->
+                {{form.username.label ( class="block text-sm font-medium
+                text-gray-700 dark:text-gray-300 group-hover:text-heartred-500
+                transition-colors duration-200" )}}
+                <!-- input field -->
+                {{form.username( class="mt-1 block w-full px-3 py-2 bg-white
+                dark:bg-gray-700 border border-gray-300 dark:border-gray-600
+                rounded-md shadow-sm focus:outline-none focus:ring-heartred-500
+                focus:border-heartred-500 transition-colors duration-200" ,
+                required= true)}}
+              </div>
+              <!-- password -->
+              <div class="group">
+                <!-- input label -->
+                {{form.password.label ( class="block text-sm font-medium
+                text-gray-700 dark:text-gray-300 group-hover:text-heartred-500
+                transition-colors duration-200" )}}
+                <!-- input field -->
+                {{form.password( class="mt-1 block w-full px-3 py-2 bg-white
+                dark:bg-gray-700 border border-gray-300 dark:border-gray-600
+                rounded-md shadow-sm focus:outline-none focus:ring-heartred-500
+                focus:border-heartred-500 transition-colors duration-200" ,
+                required= true)}}
+              </div>
+              <div>
+                {{form.login_btn ( class="w-full flex justify-center py-2 px-4
+                border border-transparent rounded-md shadow-sm text-sm
+                font-medium text-white bg-heartred-600 hover:bg-heartred-700
+                focus:outline-none focus:ring-2 focus:ring-offset-2
+                focus:ring-heartred-500 transition-all duration-200 transform
+                hover:scale-105" )}}
+              </div>
+            </form>
+            <p
+              class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400"
+            >
+              Don't have an account?
+              <a
+                href="/register"
+                class="font-medium text-heartred-600 hover:text-heartred-500 dark:text-heartred-400 dark:hover:text-heartred-300 transition-colors duration-200"
+                >Sign up</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-white dark:bg-gray-800 shadow-md mt-8 relative z-10">
+      <div
+        class="container mx-auto px-4 sm:px-6 py-3 text-center text-xs sm:text-sm"
+      >
+        <p>&copy; 2023 HeartWise. All rights reserved.</p>
+      </div>
+    </footer>
+    <script>
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const html = document.documentElement;
+
+      darkModeToggle.addEventListener("click", () => {
+        html.classList.toggle("dark");
+        localStorage.setItem("darkMode", html.classList.contains("dark"));
+      });
+
+      if (
+        localStorage.getItem("darkMode") === "true" ||
+        (!("darkMode" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        html.classList.add("dark");
+      }
+    </script>
+  </body>
+</html>
