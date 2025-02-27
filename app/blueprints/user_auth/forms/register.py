@@ -14,7 +14,7 @@ class RegisterForm(FlaskForm):
         "Email",
         validators=[
             DataRequired(message="Please enter your email!"),
-            Email(message="PLease enter a valid email!"),
+            Email(message="Please enter a valid email!"),
         ],
     )
     password = PasswordField(

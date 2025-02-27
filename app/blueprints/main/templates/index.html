@@ -1,0 +1,781 @@
+<!-- r1 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HeartWise - Your Heart Health Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              heartred: {
+                50: "#fff1f1",
+                100: "#ffe0e0",
+                200: "#ffc5c5",
+                300: "#ff9d9d",
+                400: "#ff6464",
+                500: "#ff3b3b",
+                600: "#ed1515",
+                700: "#c80d0d",
+                800: "#a50f0f",
+                900: "#881414",
+                950: "#4b0404",
+              },
+            },
+            animation: {
+              "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      .grid-item {
+        transition: all 0.3s ease;
+      }
+      .grid-item:hover {
+        transform: scale(1.05);
+        z-index: 10;
+      }
+      .grid-item:not(:hover) {
+        filter: brightness(0.95);
+      }
+      .tip-carousel {
+        position: relative;
+        overflow: hidden;
+      }
+      .tip-container {
+        display: flex;
+        transition: transform 0.3s ease;
+      }
+      .tip-item {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      @media (min-width: 640px) {
+        .tip-item {
+          flex: 0 0 33.333333%;
+          max-width: 33.333333%;
+        }
+      }
+      .tip-navigation {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #ed1515;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        z-index: 10;
+      }
+      .tip-navigation:hover {
+        background-color: rgba(255, 255, 255, 1);
+      }
+      .tip-navigation:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(237, 21, 21, 0.5);
+      }
+      .tip-navigation.prev {
+        left: 10px;
+      }
+      .tip-navigation.next {
+        right: 10px;
+      }
+      .tip-navigation:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .insight-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+        gap: 1rem;
+      }
+      .insight-item {
+        background-color: white;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+      }
+      .insight-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .dark .insight-item {
+        background-color: #1f2937;
+      }
+      @media (max-width: 768px) {
+        .insight-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+    <style>
+      @keyframes heartbeat {
+        0% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.1);
+        }
+        50% {
+          transform: scale(1);
+        }
+        75% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .heartbeat {
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+      .bg-pulse::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle,
+          rgba(255, 59, 59, 0.1) 0%,
+          rgba(255, 59, 59, 0) 70%
+        );
+        animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col"
+  >
+    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
+      <nav class="container mx-auto px-4 sm:px-6 py-4">
+        <div class="flex items-center justify-between">
+          <a
+            href="/"
+            class="text-2xl font-bold text-heartred-600 dark:text-heartred-400 flex items-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>HeartWise</span>
+          </a>
+          <button
+            id="darkModeToggle"
+            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-heartred-500 transition-colors duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 sm:px-6 py-8">
+      <h1
+        class="text-4xl sm:text-5xl font-bold text-center mb-8 text-heartred-600 dark:text-heartred-400"
+      >
+        HeartWise Education Center
+        <span
+          class="block text-2xl sm:text-3xl mt-2 text-gray-600 dark:text-gray-400"
+          >Empowering Your Heart Health Journey</span
+        >
+      </h1>
+
+      <!-- Educational Content Grid -->
+      <section class="mb-12">
+        <h2 class="text-3xl font-semibold mb-6 text-center">
+          Heart Health Essentials
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Large grid item -->
+          <div
+            class="grid-item md:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+          >
+            <h3 class="text-xl font-semibold mb-2 text-heartred-600">
+              Understanding Your Heart
+            </h3>
+            <p class="mb-4">
+              The heart is a muscular organ about the size of a fist, located
+              just behind and slightly left of the breastbone. It pumps blood
+              through the network of arteries and veins called the
+              cardiovascular system.
+            </p>
+            <ul class="list-disc list-inside">
+              <li>
+                The heart has four chambers: two upper atria and two lower
+                ventricles.
+              </li>
+              <li>
+                It beats about 100,000 times per day, pumping 5-6 quarts of
+                blood each minute.
+              </li>
+              <li>
+                The heart's electrical system controls the rhythm of the
+                heartbeat.
+              </li>
+            </ul>
+          </div>
+          <!-- Small grid item -->
+          <div
+            class="grid-item bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+          >
+            <h3 class="text-xl font-semibold mb-2 text-heartred-600">
+              Key Heart Stats
+            </h3>
+            <ul class="list-disc list-inside">
+              <li>Average adult heart rate: 60-100 beats per minute</li>
+              <li>Blood vessels length: 60,000 miles</li>
+              <li>Daily blood pump volume: About 2,000 gallons</li>
+            </ul>
+          </div>
+          <!-- Small grid item -->
+          <div
+            class="grid-item bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+          >
+            <h3 class="text-xl font-semibold mb-2 text-heartred-600">
+              Risk Factors
+            </h3>
+            <p>Common risk factors for heart disease include:</p>
+            <ul class="list-disc list-inside">
+              <li>High blood pressure</li>
+              <li>High cholesterol</li>
+              <li>Smoking</li>
+              <li>Obesity</li>
+              <li>Physical inactivity</li>
+            </ul>
+          </div>
+          <!-- Large grid item -->
+          <div
+            class="grid-item md:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+          >
+            <h3 class="text-xl font-semibold mb-2 text-heartred-600">
+              Heart-Healthy Diet
+            </h3>
+            <p class="mb-4">
+              A heart-healthy diet can help reduce the risk of heart disease and
+              improve overall cardiovascular health. Key components include:
+            </p>
+            <ul class="list-disc list-inside">
+              <li>
+                Fruits and vegetables: Aim for a variety of colors to get a wide
+                range of nutrients.
+              </li>
+              <li>
+                Whole grains: Choose whole grain bread, pasta, and cereals over
+                refined grains.
+              </li>
+              <li>Lean proteins: Opt for fish, poultry, beans, and nuts.</li>
+              <li>
+                Healthy fats: Include sources of omega-3 fatty acids and
+                monounsaturated fats.
+              </li>
+              <li>
+                Limited sodium: Reduce salt intake to help control blood
+                pressure.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Heart Health Meter -->
+      <section class="mb-12">
+        <h2 class="text-3xl font-semibold mb-6 text-center">
+          Heart Health Awareness Meter
+        </h2>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <div class="flex items-center justify-center mb-4">
+            <div
+              id="heartMeter"
+              class="w-full max-w-md h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"
+            >
+              <div
+                id="heartFill"
+                class="h-full bg-gradient-to-r from-heartred-500 to-heartred-600 transition-all duration-300 ease-in-out"
+                style="width: 50%"
+              ></div>
+            </div>
+          </div>
+          <div class="text-center mb-4">
+            <span id="heartPercentage" class="text-2xl font-bold">50%</span>
+          </div>
+          <div class="flex justify-center space-x-4">
+            <button
+              id="decreaseHeart"
+              class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-heartred-500"
+            >
+              Decrease
+            </button>
+            <button
+              id="increaseHeart"
+              class="px-4 py-2 bg-heartred-500 text-white rounded hover:bg-heartred-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-heartred-500"
+            >
+              Increase
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Prevention Measures -->
+      <section class="mb-12">
+        <h2 class="text-3xl font-semibold mb-6 text-center">
+          Heart Health Tips
+        </h2>
+        <div class="tip-carousel">
+          <div class="tip-container">
+            <div class="tip-item p-2">
+              <div
+                class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://source.unsplash.com/featured/?healthy-food"
+                  alt="Healthy Food"
+                  class="w-full h-48 object-cover"
+                />
+                <div class="p-6">
+                  <h3 class="text-xl font-semibold mb-2">Balanced Diet</h3>
+                  <p>
+                    Incorporate a variety of fruits, vegetables, whole grains,
+                    and lean proteins into your meals.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="tip-item p-2">
+              <div
+                class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://source.unsplash.com/featured/?exercise"
+                  alt="Exercise"
+                  class="w-full h-48 object-cover"
+                />
+                <div class="p-6">
+                  <h3 class="text-xl font-semibold mb-2">Regular Exercise</h3>
+                  <p>
+                    Aim for at least 150 minutes of moderate-intensity aerobic
+                    activity per week.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="tip-item p-2">
+              <div
+                class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://source.unsplash.com/featured/?meditation"
+                  alt="Stress Management"
+                  class="w-full h-48 object-cover"
+                />
+                <div class="p-6">
+                  <h3 class="text-xl font-semibold mb-2">Stress Management</h3>
+                  <p>
+                    Practice relaxation techniques such as meditation, deep
+                    breathing, or yoga to reduce stress.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="tip-item p-2">
+              <div
+                class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://source.unsplash.com/featured/?sleep"
+                  alt="Quality Sleep"
+                  class="w-full h-48 object-cover"
+                />
+                <div class="p-6">
+                  <h3 class="text-xl font-semibold mb-2">Quality Sleep</h3>
+                  <p>
+                    Aim for 7-9 hours of quality sleep each night to support
+                    heart health and overall well-being.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="tip-item p-2">
+              <div
+                class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://source.unsplash.com/featured/?hydration"
+                  alt="Stay Hydrated"
+                  class="w-full h-48 object-cover"
+                />
+                <div class="p-6">
+                  <h3 class="text-xl font-semibold mb-2">Stay Hydrated</h3>
+                  <p>
+                    Drink plenty of water throughout the day to support proper
+                    heart function and circulation.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="tip-item p-2">
+              <div
+                class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://source.unsplash.com/featured/?no-smoking"
+                  alt="Quit Smoking"
+                  class="w-full h-48 object-cover"
+                />
+                <div class="p-6">
+                  <h3 class="text-xl font-semibold mb-2">Quit Smoking</h3>
+                  <p>
+                    If you smoke, quitting is one of the best things you can do
+                    for your heart health.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="tip-navigation prev"
+            id="prevTip"
+            aria-label="Previous tip"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            class="tip-navigation next"
+            id="nextTip"
+            aria-label="Next tip"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- New Heart Health Insights section -->
+      <section class="mb-12">
+        <h2 class="text-3xl font-semibold mb-6 text-center">
+          Heart Health Insights
+        </h2>
+        <div class="insight-grid">
+          <div
+            class="insight-item col-span-2 row-span-2 bg-heartred-100 dark:bg-heartred-900"
+          >
+            <h3
+              class="text-xl font-semibold mb-2 text-heartred-600 dark:text-heartred-300"
+            >
+              Heart Attack Signs
+            </h3>
+            <ul class="list-disc list-inside">
+              <li>Chest discomfort or pain</li>
+              <li>Upper body discomfort</li>
+              <li>Shortness of breath</li>
+              <li>Nausea, lightheadedness, or cold sweats</li>
+            </ul>
+          </div>
+          <div class="insight-item bg-blue-100 dark:bg-blue-900">
+            <h3
+              class="text-lg font-semibold mb-2 text-blue-600 dark:text-blue-300"
+            >
+              Blood Pressure
+            </h3>
+            <p>Normal: Less than 120/80 mm Hg</p>
+          </div>
+          <div class="insight-item bg-green-100 dark:bg-green-900">
+            <h3
+              class="text-lg font-semibold mb-2 text-green-600 dark:text-green-300"
+            >
+              Exercise Goal
+            </h3>
+            <p>150 minutes of moderate-intensity aerobic activity per week</p>
+          </div>
+          <div class="insight-item col-span-2 bg-yellow-100 dark:bg-yellow-900">
+            <h3
+              class="text-lg font-semibold mb-2 text-yellow-600 dark:text-yellow-300"
+            >
+              Heart-Healthy Foods
+            </h3>
+            <p>
+              Leafy green vegetables, whole grains, berries, avocados, fatty
+              fish, nuts, and seeds
+            </p>
+          </div>
+          <div class="insight-item bg-purple-100 dark:bg-purple-900">
+            <h3
+              class="text-lg font-semibold mb-2 text-purple-600 dark:text-purple-300"
+            >
+              Resting Heart Rate
+            </h3>
+            <p>Normal: 60-100 beats per minute</p>
+          </div>
+          <div class="insight-item bg-pink-100 dark:bg-pink-900">
+            <h3
+              class="text-lg font-semibold mb-2 text-pink-600 dark:text-pink-300"
+            >
+              Stress Relief
+            </h3>
+            <p>Try meditation, deep breathing, or yoga</p>
+          </div>
+          <div class="insight-item col-span-2 bg-indigo-100 dark:bg-indigo-900">
+            <h3
+              class="text-lg font-semibold mb-2 text-indigo-600 dark:text-indigo-300"
+            >
+              Sleep for Heart Health
+            </h3>
+            <p>
+              Aim for 7-9 hours of quality sleep each night to support
+              cardiovascular health
+            </p>
+          </div>
+          <div class="insight-item bg-red-100 dark:bg-red-900">
+            <h3
+              class="text-lg font-semibold mb-2 text-red-600 dark:text-red-300"
+            >
+              Smoking Impact
+            </h3>
+            <p>
+              Quitting smoking can lower heart disease risk by 50% in just one
+              year
+            </p>
+          </div>
+          <div class="insight-item bg-orange-100 dark:bg-orange-900">
+            <h3
+              class="text-lg font-semibold mb-2 text-orange-600 dark:text-orange-300"
+            >
+              Hydration
+            </h3>
+            <p>Drink 8-10 glasses of water daily for optimal heart function</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <section class="mb-12">
+        <div
+          class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md text-center"
+        >
+          <h2 class="text-3xl font-bold mb-4">
+            Take Control of Your Heart Health
+          </h2>
+          <p class="mb-6 text-lg">
+            Join HeartWise to assess your heart health!
+          </p>
+          <a
+            href="#"
+            id="ctaButton"
+            class="inline-block bg-heartred-600 hover:bg-heartred-700 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-heartred-500"
+          >
+            Get Started
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-white dark:bg-gray-800 shadow-md mt-8">
+      <div class="container mx-auto px-4 sm:px-6 py-4 text-center text-sm">
+        <p>&copy; 2025 HeartWise. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Dark mode toggle
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const html = document.documentElement;
+
+      darkModeToggle.addEventListener("click", () => {
+        html.classList.toggle("dark");
+        localStorage.setItem("darkMode", html.classList.contains("dark"));
+      });
+
+      if (
+        localStorage.getItem("darkMode") === "true" ||
+        (!("darkMode" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        html.classList.add("dark");
+      }
+
+      // Interactive Heart Health Meter
+      const heartMeter = document.getElementById("heartMeter");
+      const heartFill = document.getElementById("heartFill");
+      const heartPercentage = document.getElementById("heartPercentage");
+      const decreaseHeart = document.getElementById("decreaseHeart");
+      const increaseHeart = document.getElementById("increaseHeart");
+
+      let heartHealth = 50;
+
+      function updateHeartMeter() {
+        heartFill.style.width = `${heartHealth}%`;
+        heartPercentage.textContent = `${heartHealth}%`;
+      }
+
+      decreaseHeart.addEventListener("click", () => {
+        heartHealth = Math.max(0, heartHealth - 10);
+        updateHeartMeter();
+      });
+
+      increaseHeart.addEventListener("click", () => {
+        heartHealth = Math.min(100, heartHealth + 10);
+        updateHeartMeter();
+      });
+
+      // Grid item hover effects
+      const gridItems = document.querySelectorAll(".grid-item");
+      gridItems.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+          gridItems.forEach((otherItem) => {
+            if (otherItem !== item) {
+              otherItem.style.filter = "brightness(0.7)";
+            }
+          });
+        });
+        item.addEventListener("mouseleave", () => {
+          gridItems.forEach((otherItem) => {
+            otherItem.style.filter = "brightness(1)";
+          });
+        });
+      });
+
+      // Subtle hover effect for CTA button
+      const ctaButton = document.getElementById("ctaButton");
+      ctaButton.addEventListener("mouseenter", () => {
+        ctaButton.style.transform = "translateY(-2px)";
+      });
+      ctaButton.addEventListener("mouseleave", () => {
+        ctaButton.style.transform = "translateY(0)";
+      });
+
+      // Heart Health Tips Carousel
+      const tipContainer = document.querySelector(".tip-container");
+      const tipItems = document.querySelectorAll(".tip-item");
+      const prevTipButton = document.getElementById("prevTip");
+      const nextTipButton = document.getElementById("nextTip");
+      let currentTipIndex = 0;
+      const totalTips = tipItems.length;
+      const visibleTips = window.innerWidth >= 640 ? 3 : 1;
+
+      function updateCarousel() {
+        const offset = -(currentTipIndex * (100 / visibleTips));
+        tipContainer.style.transform = `translateX(${offset}%)`;
+
+        prevTipButton.disabled = currentTipIndex === 0;
+        nextTipButton.disabled = currentTipIndex >= totalTips - visibleTips;
+      }
+
+      prevTipButton.addEventListener("click", () => {
+        if (currentTipIndex > 0) {
+          currentTipIndex--;
+          updateCarousel();
+        }
+      });
+
+      nextTipButton.addEventListener("click", () => {
+        if (currentTipIndex < totalTips - visibleTips) {
+          currentTipIndex++;
+          updateCarousel();
+        }
+      });
+
+      // Initialize carousel
+      updateCarousel();
+
+      // Update carousel on window resize
+      window.addEventListener("resize", () => {
+        const newVisibleTips = window.innerWidth >= 640 ? 3 : 1;
+        if (newVisibleTips !== visibleTips) {
+          currentTipIndex = 0;
+          updateCarousel();
+        }
+      });
+
+      // Add hover effect for insight items
+      const insightItems = document.querySelectorAll(".insight-item");
+      insightItems.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+          insightItems.forEach((otherItem) => {
+            if (otherItem !== item) {
+              otherItem.style.opacity = "0.7";
+            }
+          });
+        });
+        item.addEventListener("mouseleave", () => {
+          insightItems.forEach((otherItem) => {
+            otherItem.style.opacity = "1";
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

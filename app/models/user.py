@@ -2,6 +2,7 @@ import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from flask_login import UserMixin
 from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 # User class
@@ -26,3 +27,11 @@ class User(UserMixin, db.Model):
 
     # Password
     password = db.Column(db.String(300), nullable=False)
+
+    def set_password(self, password):
+        """Create hashed password."""
+        self.password = generate_password_hash(password, method="sha256")
+
+    def check_password(self, password):
+        """Check hashed password."""
+        return check_password_hash(self.password, password)
