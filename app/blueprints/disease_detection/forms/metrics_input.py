@@ -1,15 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, FloatField, RadioField, StringField
+from wtforms import IntegerField, FloatField, RadioField, StringField, SubmitField
 from wtforms.validators import DataRequired, NumberRange, Optional
 
 
-class HealthMetricsForm(FlaskForm):
+class MetricsInputForm(FlaskForm):
     # Personal Information
     age = IntegerField(
         "Age",
         validators=[
             DataRequired(),
-            NumberRange(min=18, max=120, message="Age must be between 18 and 120"),
+            NumberRange(min=18, max=120, message="Age must be between 18 and 120."),
         ],
     )
     gender = RadioField(
@@ -62,7 +62,9 @@ class HealthMetricsForm(FlaskForm):
         validators=[
             DataRequired(),
             NumberRange(
-                min=70, max=250, message="Systolic BP must be between 70 and 250 mmHg"
+                min=70,
+                max=250,
+                message="Systolic BP must be between 70 and 250 mmHg",  # yet to verify
             ),
         ],
     )
@@ -71,7 +73,9 @@ class HealthMetricsForm(FlaskForm):
         validators=[
             DataRequired(),
             NumberRange(
-                min=40, max=150, message="Diastolic BP must be between 40 and 150 mmHg"
+                min=40,
+                max=150,
+                message="Diastolic BP must be between 40 and 150 mmHg",  # yet to verify
             ),
         ],
     )
@@ -82,7 +86,7 @@ class HealthMetricsForm(FlaskForm):
             NumberRange(
                 min=100,
                 max=600,
-                message="Cholesterol must be between 100 and 600 mg/dL",
+                message="Cholesterol must be between 100 and 600 mg/dL",  # yet to verify
             ),
         ],
     )
@@ -93,7 +97,7 @@ class HealthMetricsForm(FlaskForm):
             NumberRange(
                 min=40,
                 max=400,
-                message="Blood glucose must be between 40 and 400 mg/dL",
+                message="Blood glucose must be between 40 and 400 mg/dL",  # yet to verify
             ),
         ],
     )
@@ -102,7 +106,9 @@ class HealthMetricsForm(FlaskForm):
         validators=[
             DataRequired(),
             NumberRange(
-                min=40, max=200, message="Heart rate must be between 40 and 200 bpm"
+                min=40,
+                max=200,
+                message="Heart rate must be between 40 and 200 bpm",  # yet to verify
             ),
         ],
     )
@@ -113,3 +119,6 @@ class HealthMetricsForm(FlaskForm):
             NumberRange(min=10, max=50, message="BMI must be between 10 and 50"),
         ],
     )
+
+    # Submit button
+    submit_btm = SubmitField("Assess My Heart Health")
