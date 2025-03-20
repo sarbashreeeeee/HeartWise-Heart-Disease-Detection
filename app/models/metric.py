@@ -14,11 +14,22 @@ class Metric(db.Model):
         default=uuid.uuid4,
     )
 
-    # Metric name
-    metric_name = db.Column(db.String(50), nullable=False, unique=True)
+    # Input Metrics
+    gender = db.Column(db.Enum("Male", "Female", name="gender_enum"), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    current_smoker = db.Column(db.Boolean, nullable=False)
+    cigs_per_day = db.Column(db.Integer, nullable=False)
+    bp_meds = db.Column(db.Boolean, nullable=False)
+    prevalent_stroke = db.Column(db.Boolean, nullable=False)
+    prevalent_hyp = db.Column(db.Boolean, nullable=False)
+    diabetes = db.Column(db.Boolean, nullable=False)
+    cholesterol = db.Column(db.Integer, nullable=False)
+    sys_bp = db.Column(db.Integer, nullable=False)
+    dia_bp = db.Column(db.Integer, nullable=False)
+    bmi = db.Column(db.Integer, nullable=False)
+    heart_rate = db.Column(db.Integer, nullable=False)
+    glucose = db.Column(db.Integer, nullable=False)
 
-    # Metric tupe
-    metric_type = db.Column(db.String(50), nullable=False, unique=True)
-
-    # Values
-    email = db.Column(db.Integer(100), nullable=False, unique=True)
+    # Setting user_id as foreign key
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("user.id"), nullable=False)
+    user = db.relationship("User")

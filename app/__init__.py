@@ -20,6 +20,7 @@ def create_app():
     with app.app_context():
         # Import model classes here
         from app.models.user import User
+        from app.models.metric import Metric
 
         # Import routes here
         from app.blueprints.user_auth import routes

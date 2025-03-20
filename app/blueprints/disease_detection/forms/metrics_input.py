@@ -58,7 +58,7 @@ class MetricsInputForm(FlaskForm):
 
     # Current Health Metrics
     systolic = IntegerField(
-        "Systolic Blood Pressure",
+        "Systolic Blood Pressure (mmHg)",
         validators=[
             DataRequired(),
             NumberRange(
@@ -69,7 +69,7 @@ class MetricsInputForm(FlaskForm):
         ],
     )
     diastolic = IntegerField(
-        "Diastolic Blood Pressure",
+        "Diastolic Blood Pressure (mmHg)",
         validators=[
             DataRequired(),
             NumberRange(
@@ -80,7 +80,7 @@ class MetricsInputForm(FlaskForm):
         ],
     )
     cholesterol = IntegerField(
-        "Total Cholesterol",
+        "Total Cholesterol (mg/dL)",
         validators=[
             DataRequired(),
             NumberRange(
@@ -91,7 +91,7 @@ class MetricsInputForm(FlaskForm):
         ],
     )
     glucose = IntegerField(
-        "Blood Glucose",
+        "Blood Glucose (mg/dL)",
         validators=[
             DataRequired(),
             NumberRange(
@@ -102,7 +102,7 @@ class MetricsInputForm(FlaskForm):
         ],
     )
     heart_rate = IntegerField(
-        "Heart Rate",
+        "Heart Rate (bpm)",
         validators=[
             DataRequired(),
             NumberRange(
