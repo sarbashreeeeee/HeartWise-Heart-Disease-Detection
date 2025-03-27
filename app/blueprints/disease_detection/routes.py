@@ -14,6 +14,12 @@ def view_metrics_input_page():
     return render_template("metrics_input.html", form=form)
 
 
+@disease_detection_bp.route("/report", methods=["GET"])
+@login_required
+def view_report_page():
+    return render_template("report.html")
+
+
 @disease_detection_bp.route("make_prediction", methods=["POST"])
 @login_required
 def make_disease_pred():
@@ -42,25 +48,29 @@ def make_disease_pred():
                 user_id=current_user.id,
             )
 
-            are_metrics_saved_to_db = DetectionService.save_metrics_to_db(metrics)
-            if are_metrics_saved_to_db:
-                pred_result = DetectionService.pred_disease(metrics)
-                if pred_result == -1:
+            pred_result = DetectionService.pred_disease(metrics)
+            if pred_result == -1:
+                return jsonify(
+                    {
+                        "success": False,
+                        "message": "Prediction Error!",
+                    }
+                )
+            else:
+                are_metrics_saved_to_db = DetectionService.save_metrics_to_db(metrics)
+                if not are_metrics_saved_to_db:
                     return jsonify(
                         {
                             "success": False,
-                            "message": "Prediction Error!",
+                            "message": "Error saving data in the database!",
                         }
                     )
+
                 return jsonify(
                     {
                         "success": True,
                         "message": f"Prediction Result: {pred_result}",
                     }
-                )
-            else:
-                return jsonify(
-                    {"success": False, "message": "Error saving metrics to DB!"}
                 )
         except Exception as Ex:
             print(f"HYAAAAAAAAAA {Ex}")

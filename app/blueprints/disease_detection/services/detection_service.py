@@ -2,74 +2,46 @@ import os
 import pandas as pd
 from flask import current_app
 from joblib import load
+import traceback
 
 
 class DetectionService:
     model_directory = current_app.config["ML_MODEL_FOLDER"]
     disease_pred_model = load(os.path.join(model_directory, "LRModel.joblib"))
 
-    # This is just here for referencing
-    dataset_col_names = [
-        "male",
-        "age",
-        "currentSmoker",
-        "cigsPerDay",
-        "BPMeds",
-        "prevalentStroke",
-        "prevalentHyp",
-        "diabetes",
-        "totChol",
-        "sysBP",
-        "diaBP",
-        "BMI",
-        "heartRate",
-        "glucose",
-        "TenYearCHD",
-    ]
-
     @staticmethod
     def pred_disease(metrics):
         """metrics parameter is an object of the class metric.py"""
         try:
-            print("JPT 1")
-            # are_metrics_saved_to_db = DetectionService.save_metrics_to_db(metrics)
-            # if are_metrics_saved_to_db:
-            metric_dict = vars(metrics)
-            print("JPT 2", [metric_dict.keys()])
-            # print("Metric dict gender", metric_dict["gender"])
-            df = pd.DataFrame([metric_dict])
-            print(df.columns)
-            print(df)
-            df = DetectionService.map_column_names(df)
+            df = DetectionService.map_column_names(metrics)
             pred = DetectionService.disease_pred_model.predict(df)
             print(pred)
             return pred
-            # return -1
         except Exception as Ex:
             print(f"Exception when predicting disease{Ex}")
+            print(traceback.format_exc())
             return -1
 
     @staticmethod
-    def map_column_names(df):
+    def map_column_names(metrics):
         # Mapping dictionary to translate input metrics to dataset column names
-        column_mapping = {
-            "gender": "male",
-            "current_smoker": "currentSmoker",
-            "cigs_per_day": "cigsPerDay",
-            "bp_meds": "BPMeds",
-            "prevalent_stroke": "prevalentStroke",
-            "prevalent_hyp": "prevalentHyp",
-            "cholesterol": "totChol",
-            "sys_bp": "sysBP",
-            "dia_bp": "diaBP",
-            "heart_rate": "heartRate",
-            "bmi": "BMI",
-            "age": "age",
-            "glucose": "glucose",
+        dataset_col_names = {
+            "male": metrics.gender,
+            "age": metrics.age,
+            "currentSmoker": metrics.current_smoker,
+            "cigsPerDay": metrics.cigs_per_day,
+            "BPMeds": metrics.bp_meds,
+            "prevalentStroke": metrics.prevalent_stroke,
+            "prevalentHyp": metrics.prevalent_hyp,
+            "diabetes": metrics.diabetes,
+            "totChol": metrics.cholesterol,
+            "sysBP": metrics.sys_bp,
+            "diaBP": metrics.dia_bp,
+            "BMI": metrics.bmi,
+            "heartRate": metrics.heart_rate,
+            "glucose": metrics.glucose,
         }
-
-        # Rename columns using the mapping
-        df = df.rename(columns=column_mapping)
+        df = pd.DataFrame([dataset_col_names])
 
         # Handle value transformations
         # Convert categorical variables
@@ -80,7 +52,7 @@ class DetectionService:
         df["prevalentHyp"] = (df["prevalentHyp"] == "yes").astype(int)
         df["diabetes"] = (df["diabetes"] == "yes").astype(int)
 
-        df = df.drop("_sa_instance_state", axis=1)
+        # df = df.drop("_sa_instance_state", axis=1)
         return df
 
     @staticmethod
