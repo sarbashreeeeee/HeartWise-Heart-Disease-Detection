@@ -14,14 +14,14 @@ class MetricsInputForm(FlaskForm):
     )
     gender = RadioField(
         "Gender",
-        choices=[("male", "Male"), ("female", "Female")],
+        choices=[("Male", "Male"), ("Female", "Female")],
         validators=[DataRequired()],
     )
 
     # Lifestyle Factors
     smoker = RadioField(
         "Current Smoker?",
-        choices=[("yes", "Yes"), ("no", "No")],
+        choices=[(1, "Yes"), (0, "No")],
         validators=[DataRequired()],
     )
     cigarettes = IntegerField(
@@ -39,21 +39,21 @@ class MetricsInputForm(FlaskForm):
     # Medical History
     bp_meds = RadioField(
         "Taking BP Medicines?",
-        choices=[("yes", "Yes"), ("no", "No")],
+        choices=[(1, "Yes"), (0, "No")],
         validators=[DataRequired()],
     )
     stroke = RadioField(
         "Previous Stroke History?",
-        choices=[("yes", "Yes"), ("no", "No")],
+        choices=[(1, "Yes"), (0, "No")],
         validators=[DataRequired()],
     )
     hypertension = RadioField(
         "Hypertension?",
-        choices=[("yes", "Yes"), ("no", "No")],
+        choices=[(1, "Yes"), (0, "No")],
         validators=[DataRequired()],
     )
     diabetes = RadioField(
-        "Diabetes?", choices=[("yes", "Yes"), ("no", "No")], validators=[DataRequired()]
+        "Diabetes?", choices=[(1, "Yes"), (0, "No")], validators=[DataRequired()]
     )
 
     # Current Health Metrics

@@ -35,4 +35,5 @@ def create_app():
         app.register_blueprint(user_auth_bp)
         app.register_blueprint(main_bp)
         app.register_blueprint(disease_detection_bp)
+
     return app

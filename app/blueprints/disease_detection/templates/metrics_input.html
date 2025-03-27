@@ -469,8 +469,8 @@
   document.querySelectorAll('input[name="smoker"]').forEach((radio) => {
     radio.addEventListener("change", function () {
       const cigarettesField = document.getElementById("cigarettesPerDay");
-      cigarettesField.classList.toggle("hidden", this.value === "no");
-      if (this.value === "no") {
+      cigarettesField.classList.toggle("hidden", this.value === "0");
+      if (this.value === 0) {
         document.getElementById("cigarettesPerDay").value = "0";
       }
     });
@@ -482,6 +482,9 @@
     // Prevent default submission
     event.preventDefault();
     const formData = new FormData(form);
+    const resultModal = document.getElementById("resultModal");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultMessage = document.getElementById("resultMessage");
     try {
       // Submit the form inputs to the endpoint
       const response = await fetch("make_prediction", {
@@ -494,13 +497,49 @@
 
       //
       if (data?.success) {
-        console.log(data.message);
+        // Customize the modal content based on the prediction result
+        if (data.prediction === 1) {
+          resultTitle.textContent = "Potential Heart Disease Risk";
+          resultTitle.classList.remove("text-green-900");
+          resultTitle.classList.add("text-heartred-900");
+          resultMessage.textContent =
+            "Based on your health metrics, there might be an increased risk of coronary heart disease. We recommend consulting with a healthcare professional for a comprehensive evaluation.";
+        } else {
+          resultTitle.textContent = "Low Heart Disease Risk";
+          resultTitle.classList.remove("text-heartred-900");
+          resultTitle.classList.add("text-green-900");
+          resultMessage.textContent =
+            "Good news! Based on your current health metrics, your risk of coronary heart disease appears to be low. Continue maintaining a healthy lifestyle.";
+        }
+
+        // Show the modal
+        resultModal.classList.remove("hidden");
       } else {
+        // Handle unsuccessful prediction
         console.error(data.message);
+        alert("Unable to process prediction. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      alert("An error occurred while processing your request.");
     }
+  });
+  // Add event listeners for modal close buttons
+  document.getElementById("closeModal").addEventListener("click", () => {
+    document.getElementById("resultModal").classList.add("hidden");
+  });
+
+  // Optional: Close modal when clicking outside the modal content
+  document.getElementById("resultModal").addEventListener("click", (event) => {
+    if (event.target === event.currentTarget) {
+      event.currentTarget.classList.add("hidden");
+    }
+  });
+
+  // Add event listener for generate report button
+  document.getElementById("generateReportBtn").addEventListener("click", () => {
+    // This is a placeholder. You would typically implement report generation logic here
+    alert("Report generation feature coming soon!");
   });
 </script>
 {% endblock %}
