@@ -1,1 +1,381 @@
-<h1>TERO REPORT</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HeartWise Medical Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              heartred: {
+                50: "#fff1f1",
+                100: "#ffe0e0",
+                200: "#ffc5c5",
+                300: "#ff9d9d",
+                400: "#ff6464",
+                500: "#ff3b3b",
+                600: "#ed1515",
+                700: "#c80d0d",
+                800: "#a50f0f",
+                900: "#881414",
+                950: "#4b0404",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @media print {
+        body {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        .no-print {
+          display: none;
+        }
+        .page-break {
+          page-break-after: always;
+        }
+      }
+      .watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        font-size: 8rem;
+        color: rgba(237, 21, 21, 0.05);
+        pointer-events: none;
+        z-index: -1;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-900 min-h-screen">
+    <div class="watermark">HEARTWISE MEDICAL REPORT</div>
+
+    <!-- Print Button -->
+    <div class="fixed top-4 right-4 no-print">
+      <button
+        onclick="window.print()"
+        class="bg-heartred-600 hover:bg-heartred-700 text-white font-bold py-2 px-4 rounded shadow"
+      >
+        Download Report
+      </button>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+      <!-- Header -->
+      <header class="border-b-2 border-heartred-600 pb-4 mb-6">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10 text-heartred-600 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <div>
+              <h1 class="text-2xl font-bold text-heartred-600">HeartWise</h1>
+              <p class="text-sm text-gray-600">
+                Cardiovascular Health Assessment
+              </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="font-bold">MEDICAL REPORT</p>
+            <p class="text-sm text-gray-600">
+              Report ID: <span id="reportId">HW-2023-12345</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Date: <span id="reportDate"></span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Time: <span id="reportTime"></span>
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Patient Information -->
+      <section class="mb-8">
+        <h2
+          class="text-xl font-bold mb-4 bg-gray-100 p-2 border-l-4 border-heartred-600"
+        >
+          User Information
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <p>
+              <span class="font-semibold">Name:</span>
+              <span id="patientName">John Doe</span>
+            </p>
+            <p>
+              <span class="font-semibold">Age:</span>
+              <span id="patientAge">35</span> years
+            </p>
+            <p>
+              <span class="font-semibold">Gender:</span>
+              <span id="patientGender">Male</span>
+            </p>
+          </div>
+          <div>
+            <p>
+              <span class="font-semibold">Height:</span>
+              <span id="patientHeight">175</span> cm
+            </p>
+            <p>
+              <span class="font-semibold">Weight:</span>
+              <span id="patientWeight">70</span> kg
+            </p>
+            <p>
+              <span class="font-semibold">BMI:</span>
+              <span id="patientBMI">22.9</span> kg/m²
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Vital Signs -->
+      <section class="mb-8">
+        <h2
+          class="text-xl font-bold mb-4 bg-gray-100 p-2 border-l-4 border-heartred-600"
+        >
+          Vital Signs
+        </h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+              <tr>
+                <th class="py-2 px-4 border-b text-left">Measurement</th>
+                <th class="py-2 px-4 border-b text-left">Value</th>
+                <th class="py-2 px-4 border-b text-left">Reference Range</th>
+                <th class="py-2 px-4 border-b text-left">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-2 px-4 border-b">Blood Pressure (Systolic)</td>
+                <td class="py-2 px-4 border-b" id="sysBP">120 mmHg</td>
+                <td class="py-2 px-4 border-b">90-120 mmHg</td>
+                <td class="py-2 px-4 border-b" id="sysBPStatus">
+                  <span
+                    class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800"
+                    >Normal</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">Blood Pressure (Diastolic)</td>
+                <td class="py-2 px-4 border-b" id="diaBP">80 mmHg</td>
+                <td class="py-2 px-4 border-b">60-80 mmHg</td>
+                <td class="py-2 px-4 border-b" id="diaBPStatus">
+                  <span
+                    class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800"
+                    >Normal</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">Heart Rate</td>
+                <td class="py-2 px-4 border-b" id="heartRate">72 bpm</td>
+                <td class="py-2 px-4 border-b">60-100 bpm</td>
+                <td class="py-2 px-4 border-b" id="heartRateStatus">
+                  <span
+                    class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800"
+                    >Normal</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">Total Cholesterol</td>
+                <td class="py-2 px-4 border-b" id="cholesterol">180 mg/dL</td>
+                <td class="py-2 px-4 border-b">125-200 mg/dL</td>
+                <td class="py-2 px-4 border-b" id="cholesterolStatus">
+                  <span
+                    class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800"
+                    >Normal</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">Blood Glucose</td>
+                <td class="py-2 px-4 border-b" id="glucose">85 mg/dL</td>
+                <td class="py-2 px-4 border-b">70-100 mg/dL (fasting)</td>
+                <td class="py-2 px-4 border-b" id="glucoseStatus">
+                  <span
+                    class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800"
+                    >Normal</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4 border-b">BMI</td>
+                <td class="py-2 px-4 border-b" id="bmiValue">22.9 kg/m²</td>
+                <td class="py-2 px-4 border-b">18.5-24.9 kg/m²</td>
+                <td class="py-2 px-4 border-b" id="bmiStatus">
+                  <span
+                    class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800"
+                    >Normal</span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <!-- Medical History -->
+      <section class="mb-8">
+        <h2
+          class="text-xl font-bold mb-4 bg-gray-100 p-2 border-l-4 border-heartred-600"
+        >
+          Medical History
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <p>
+              <span class="font-semibold">Current Smoker:</span>
+              <span id="smokerStatus">No</span>
+            </p>
+            <p>
+              <span class="font-semibold">Cigarettes Per Day:</span>
+              <span id="cigarettesPerDay">0</span>
+            </p>
+            <p>
+              <span class="font-semibold">BP Medication:</span>
+              <span id="bpMeds">No</span>
+            </p>
+          </div>
+          <div>
+            <p>
+              <span class="font-semibold">Prevalent Stroke:</span>
+              <span id="stroke">No</span>
+            </p>
+            <p>
+              <span class="font-semibold">Prevalent Hypertension:</span>
+              <span id="hypertension">No</span>
+            </p>
+            <p>
+              <span class="font-semibold">Diabetes:</span>
+              <span id="diabetes">No</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Assessment Results -->
+      <section class="mb-8">
+        <h2
+          class="text-xl font-bold mb-4 bg-gray-100 p-2 border-l-4 border-heartred-600"
+        >
+          Assessment Results
+        </h2>
+
+        <div class="bg-white border border-gray-300 rounded-lg p-6 mb-4">
+          <h3 class="text-lg font-bold mb-2">Heart Disease Risk Assessment</h3>
+          <div id="riskAssessmentResult" class="mb-4">
+            <div class="flex items-center">
+              <div id="lowRiskIndicator" class="hidden">
+                <div
+                  class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mr-4"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8 text-green-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div id="highRiskIndicator" class="hidden">
+                <div
+                  class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mr-4"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8 text-red-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <p class="text-xl font-bold" id="riskStatus">
+                  Low Risk of Heart Disease
+                </p>
+                <p class="text-gray-600" id="riskDescription">
+                  Based on the assessment of your health metrics and medical
+                  history, you currently have a low risk of developing heart
+                  disease.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <h4 class="font-semibold mb-2">Key Contributing Factors:</h4>
+            <ul
+              class="list-disc list-inside space-y-1 text-gray-700"
+              id="contributingFactors"
+            >
+              <li>Normal blood pressure (120/80 mmHg)</li>
+              <li>Healthy cholesterol levels (180 mg/dL)</li>
+              <li>Normal BMI (22.9 kg/m²)</li>
+              <li>Non-smoker status</li>
+              <li>No history of diabetes or hypertension</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- Footer -->
+      <footer class="mt-12 pt-4 border-t border-gray-300 text-sm text-gray-600">
+        <div class="flex flex-col md:flex-row justify-between">
+          <div>
+            <p><strong>HeartWise Health Assessment</strong></p>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <p>
+              <strong>Report Generated:</strong>
+              <span id="generatedDateTime"></span>
+            </p>
+          </div>
+        </div>
+        <div class="mt-4 pt-2 border-t border-gray-200">
+          <p class="text-xs">
+            DISCLAIMER: This report is based on the information provided and is
+            intended for informational purposes only. It is not a substitute for
+            professional medical advice, diagnosis, or treatment. Always seek
+            the advice of your physician or other qualified health provider with
+            any questions you may have regarding a medical condition.
+          </p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
