@@ -73,7 +73,7 @@ def handle_login():
 def logout():
     """Logs the user out."""
     logout_user()
-    return redirect(url_for("auth.show_login"))
+    return redirect(url_for("user_auth.view_login"))
 
 
 # User loader and Unauthorized handler
