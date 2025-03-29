@@ -21,6 +21,7 @@ def create_app():
         # Import model classes here
         from app.models.user import User
         from app.models.metric import Metric
+        from app.models.report import Report
 
         # Import routes here
         from app.blueprints.user_auth import routes

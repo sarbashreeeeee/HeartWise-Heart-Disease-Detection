@@ -1,8 +1,11 @@
+from datetime import datetime
 import os
 import pandas as pd
 from flask import current_app
 from joblib import load
 import traceback
+
+from app.models.report import Report
 
 
 class DetectionService:
@@ -14,7 +17,7 @@ class DetectionService:
         """metrics parameter is an object of the class metric.py"""
         try:
             df = DetectionService.map_column_names(metrics)
-            pred = DetectionService.disease_pred_model.predict(df)
+            pred = DetectionService.disease_pred_model.predict(df)[0]
             print(pred)
             return pred
         except Exception as Ex:
@@ -62,8 +65,21 @@ class DetectionService:
 
             db.session.add(metrics)
             db.session.commit()
-            return True
+            return metrics.id
 
         except Exception as Ex:
             print(f"Error saving metrics to database: {Ex}")
+            return False
+
+    @staticmethod
+    def save_report_to_db(report):
+        try:
+            from app import db
+
+            db.session.add(report)
+            db.session.commit()
+            return report.id
+
+        except Exception as Ex:
+            print(f"Error saving report to database: {Ex}")
             return False

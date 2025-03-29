@@ -360,7 +360,7 @@
                 focus:ring-heartred-500 dark:bg-gray-600 dark:border-gray-500
                 dark:text-white" , required= true)}}
                 <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  Normal range: 125-200 mg/dL
+                  Normal range: 120-200 mg/dL
                 </p>
               </div>
 
@@ -495,7 +495,6 @@
       // Parse the JSON object
       const data = await response.json();
 
-      //
       if (data?.success) {
         // Customize the modal content based on the prediction result
         if (data.prediction === 1) {
@@ -529,18 +528,24 @@
     document.getElementById("resultModal").classList.add("hidden");
   });
 
-  // Optional: Close modal when clicking outside the modal content
+  // Close modal when clicking outside the modal content
   document.getElementById("resultModal").addEventListener("click", (event) => {
     if (event.target === event.currentTarget) {
       event.currentTarget.classList.add("hidden");
     }
   });
 
-  // Add event listener for generate report button
+  // Event listener for generate report button
   document.getElementById("generateReportBtn").addEventListener("click", () => {
-    // This is a placeholder. You would typically implement report generation logic here
-    window.location.href = "{{url_for('detect.view_report_page')}}";
-    // alert("Report generation feature coming soon!");
+    fetch("save_report_to_db")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data?.success) {
+          window.location.href = data.redirect;
+        } else {
+          console.error("Error saving report to db");
+        }
+      });
   });
 </script>
 {% endblock %}
