@@ -216,7 +216,7 @@
                   >
                     Low</span
                   >
-                  {%elif (heart_rate > 120)%}
+                  {%elif (heart_rate > 100)%}
                   <span
                     class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800"
                   >
@@ -401,7 +401,7 @@
               </div>
               <div>
                 {%if (prediction == 1) %}
-                <div>
+                <div class="flex flex-col items-center">
                   <p
                     class="px-4 py-1 mr-2 text-xl font-semibold rounded-full bg-red-100 text-red-800"
                   >

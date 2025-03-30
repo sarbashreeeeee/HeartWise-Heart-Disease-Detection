@@ -97,6 +97,7 @@ def make_disease_pred():
                     {
                         "success": True,
                         "message": "Successfully saved metrics to Database!",
+                        "prediction": int(pred_result),
                     }
                 )
         except Exception as Ex:

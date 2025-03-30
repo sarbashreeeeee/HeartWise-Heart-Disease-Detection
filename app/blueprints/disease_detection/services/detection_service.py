@@ -4,13 +4,14 @@ import pandas as pd
 from flask import current_app
 from joblib import load
 import traceback
+import xgboost
 
 from app.models.report import Report
 
 
 class DetectionService:
     model_directory = current_app.config["ML_MODEL_FOLDER"]
-    disease_pred_model = load(os.path.join(model_directory, "LRModel.joblib"))
+    disease_pred_model = load(os.path.join(model_directory, "PredModel.joblib"))
 
     @staticmethod
     def pred_disease(metrics):
