@@ -64,7 +64,7 @@ class MetricsInputForm(FlaskForm):
             NumberRange(
                 min=70,
                 max=250,
-                message="Systolic BP must be between 70 and 250 mmHg",  # yet to verify
+                message="Systolic BP must be between 70 and 250 mmHg",
             ),
         ],
     )
@@ -75,7 +75,7 @@ class MetricsInputForm(FlaskForm):
             NumberRange(
                 min=40,
                 max=150,
-                message="Diastolic BP must be between 40 and 150 mmHg",  # yet to verify
+                message="Diastolic BP must be between 40 and 150 mmHg",
             ),
         ],
     )
@@ -84,9 +84,9 @@ class MetricsInputForm(FlaskForm):
         validators=[
             DataRequired(),
             NumberRange(
-                min=100,
-                max=600,
-                message="Cholesterol must be between 100 and 600 mg/dL",  # yet to verify
+                min=50,
+                max=400,
+                message="Cholesterol must be between 100 and 400 mg/dL",
             ),
         ],
     )
@@ -96,8 +96,8 @@ class MetricsInputForm(FlaskForm):
             DataRequired(),
             NumberRange(
                 min=40,
-                max=400,
-                message="Blood glucose must be between 40 and 400 mg/dL",  # yet to verify
+                max=250,
+                message="Blood glucose must be between 40 and 250 mg/dL",
             ),
         ],
     )
@@ -108,7 +108,7 @@ class MetricsInputForm(FlaskForm):
             NumberRange(
                 min=40,
                 max=200,
-                message="Heart rate must be between 40 and 200 bpm",  # yet to verify
+                message="Heart rate must be between 40 and 200 bpm",
             ),
         ],
     )

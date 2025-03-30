@@ -27,14 +27,16 @@ def create_app():
         from app.blueprints.user_auth import routes
         from app.blueprints.main import routes
         from app.blueprints.disease_detection import routes
+        from app.blueprints.dashboard import routes
 
         # Register blueprints
         from app.blueprints.user_auth import user_auth_bp
         from app.blueprints.main import main_bp
         from app.blueprints.disease_detection import disease_detection_bp
+        from app.blueprints.dashboard import dashboard_bp
 
         app.register_blueprint(user_auth_bp)
         app.register_blueprint(main_bp)
         app.register_blueprint(disease_detection_bp)
-
+        app.register_blueprint(dashboard_bp)
     return app

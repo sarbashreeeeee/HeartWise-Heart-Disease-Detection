@@ -1,3 +1,4 @@
+{% set current_page = request.endpoint %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -66,8 +67,8 @@
             <!-- Main Navigation -->
             <div class="hidden md:flex items-center space-x-6">
               <a
-                href="/education-center"
-                class="{% if request.path == '/education-center' %}text-heartred-600 dark:text-heartred-400 font-semibold{% else %}text-gray-700 dark:text-gray-300 hover:text-heartred-600 dark:hover:text-heartred-400{% endif %} transition-colors duration-200"
+                href="{{url_for('main.index')}}"
+                class="{% if current_page == 'main.index' %}text-heartred-600 dark:text-heartred-400 font-semibold{% else %}text-gray-700 dark:text-gray-300 hover:text-heartred-600 dark:hover:text-heartred-400{% endif %} transition-colors duration-200"
               >
                 <div class="flex items-center space-x-2">
                   <svg
@@ -88,8 +89,8 @@
                 </div>
               </a>
               <a
-                href="/heart-disease-detection/metrics-input"
-                class="{% if request.path == '/heart-disease-detection/metrics-input' %}text-heartred-600 dark:text-heartred-400 font-semibold{% else %}text-gray-700 dark:text-gray-300 hover:text-heartred-600 dark:hover:text-heartred-400{% endif %} transition-colors duration-200"
+                href="{{url_for('detect.view_metrics_input_page')}}"
+                class="{% if current_page == 'detect.view_metrics_input_page' %}text-heartred-600 dark:text-heartred-400 font-semibold{% else %}text-gray-700 dark:text-gray-300 hover:text-heartred-600 dark:hover:text-heartred-400{% endif %} transition-colors duration-200"
               >
                 <div class="flex items-center space-x-2">
                   <svg
@@ -110,8 +111,8 @@
                 </div>
               </a>
               <a
-                href="/dashboard"
-                class="{% if request.path == '/dashboard' %}text-heartred-600 dark:text-heartred-400 font-semibold{% else %}text-gray-700 dark:text-gray-300 hover:text-heartred-600 dark:hover:text-heartred-400{% endif %} transition-colors duration-200"
+                href="{{url_for('dashboard.dashboard')}}"
+                class="{% if request.path == 'dashboard.dashboard' %}text-heartred-600 dark:text-heartred-400 font-semibold{% else %}text-gray-700 dark:text-gray-300 hover:text-heartred-600 dark:hover:text-heartred-400{% endif %} transition-colors duration-200"
               >
                 <div class="flex items-center space-x-2">
                   <svg
