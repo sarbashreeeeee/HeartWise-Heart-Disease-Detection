@@ -1,5 +1,86 @@
-{%extends "base.html"%} {% block content %}
+{%extends "base.html"%} {% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<h1>TERO DASHBOARD</h1>
+{% endblock %} {% block content %}
+<div
+  class="border border-heartred-100 w-full h-full flex items-center justify-center"
+>
+  <canvas
+    id="lineGraph"
+    width="auto"
+    height="auto"
+    class="border border-white w-full h-full m-4 my-4"
+  ></canvas>
+  <script>
+    const ctx = document.getElementById("lineGraph").getContext("2d");
 
+    const myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: [], // X-axis labels
+        datasets: [
+          {
+            label: "My Dataset",
+            data: [10, 20, 30], // Y-axis values
+            borderColor: "blue",
+            borderWidth: 2,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        barThickness: 50,
+
+        animation: {
+          duration: 700,
+          easing: "easeOutExpo",
+          x: {
+            from: false,
+          },
+        },
+        scales: {
+          x: { beginAtZero: true },
+          y: { beginAtZero: true },
+        },
+      },
+    });
+    async function getMetrics() {
+      try {
+        const response = await fetch("get_metrics"); // Hit the endpoint
+        const data = await response.json(); // Parse the JSON object
+
+        // If the response was not empty, update the chart UI
+        if (data?.success) {
+          // Set the labels for each predicted value
+          const labels = data.metrics.map((row) =>
+            new Date(row.Date).toLocaleString("en-GB", {
+              year: "numeric",
+              month: "short",
+              day: "2-digit",
+            })
+          );
+
+          // Set the data values from the fetched predictions
+          const datasets = Object.keys(data.metrics[0])
+            .filter((col) => col !== "Date") // Exclude timestamp from datasets
+            .map((col, index) => ({
+              label: col, // Column name
+              data: data.metrics.map((row) => row[col]), // Values from each row
+              borderColor: `rgb(${(index * 40) % 255}, ${(index * 80) % 255}, ${
+                (index * 120) % 255
+              })`,
+              fill: false,
+            }));
+          myChart.data.labels = labels;
+          myChart.data.datasets = datasets;
+          // Update the chart
+          myChart.update();
+        }
+      } catch (error) {
+        console.error("Error fetching metrics for dashboard:", error);
+      }
+    }
+    window.onload = getMetrics;
+  </script>
+</div>
 {% endblock%}

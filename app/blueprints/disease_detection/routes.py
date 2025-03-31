@@ -72,6 +72,7 @@ def make_disease_pred():
                 heart_rate=int(form.heart_rate.data),
                 glucose=int(form.glucose.data),
                 user_id=current_user.id,
+                timestamp=datetime.now(),
             )
 
             pred_result = DetectionService.pred_disease(metrics)

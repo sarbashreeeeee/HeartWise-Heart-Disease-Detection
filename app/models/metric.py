@@ -1,4 +1,5 @@
 import uuid
+from sqlalchemy import TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
 from app import db
 
@@ -29,6 +30,7 @@ class Metric(db.Model):
     bmi = db.Column(db.Integer, nullable=False)
     heart_rate = db.Column(db.Integer, nullable=False)
     glucose = db.Column(db.Integer, nullable=False)
+    timestamp = db.Column(TIMESTAMP, nullable=False)
 
     # Setting user_id as foreign key
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("user.id"), nullable=False)

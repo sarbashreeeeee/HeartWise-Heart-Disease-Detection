@@ -112,7 +112,7 @@
               </a>
               <a
                 href="{{url_for('dashboard.dashboard')}}"
-                class="{% if request.path == 'dashboard.dashboard' %}text-heartred-600 dark:text-heartred-400 font-semibold{% else %}text-gray-700 dark:text-gray-300 hover:text-heartred-600 dark:hover:text-heartred-400{% endif %} transition-colors duration-200"
+                class="{% if current_page == 'dashboard.dashboard' %}text-heartred-600 dark:text-heartred-400 font-semibold{% else %}text-gray-700 dark:text-gray-300 hover:text-heartred-600 dark:hover:text-heartred-400{% endif %} transition-colors duration-200"
               >
                 <div class="flex items-center space-x-2">
                   <svg
