@@ -157,7 +157,7 @@
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
-                <span class="hidden md:inline">Profile</span>
+                <span class="hidden md:inline">{{current_user.full_name}}</span>
               </button>
               <div
                 x-show="open"
@@ -165,13 +165,7 @@
                 class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1"
               >
                 <a
-                  href="/profile"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >Your Profile</a
-                >
-
-                <a
-                  href="/reports"
+                  href="{{url_for('past_reports.view_past_reports_page')}}"
                   class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >Health Reports</a
                 >

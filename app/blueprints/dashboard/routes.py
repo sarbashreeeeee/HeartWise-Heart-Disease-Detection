@@ -1,5 +1,5 @@
 from flask import jsonify, render_template
-from flask_login import login_required
+from flask_login import current_user, login_required
 from app.blueprints.dashboard import dashboard_bp
 from app.models.metric import Metric
 
@@ -14,7 +14,7 @@ def dashboard():
 @login_required
 def get_metrics():
     try:
-        data = Metric.query.all()
+        data = Metric.query.filter_by(user_id=current_user.id)
         rows = []
 
         for row in data:
