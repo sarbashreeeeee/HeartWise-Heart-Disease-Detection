@@ -4,7 +4,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from app import db
 
 
-# Metric class
+# Report class
 class Report(db.Model):
     __tablename__ = "report"  # Name in db
 
@@ -15,8 +15,9 @@ class Report(db.Model):
         default=uuid.uuid4,
     )
 
-    # Input Metrics
+    # Other Columns
     timestamp = db.Column(TIMESTAMP, nullable=False)
+    pdf_file = db.Column(db.LargeBinary, nullable=False)
 
     # Setting metric_id as foreign key
     metric_id = db.Column(

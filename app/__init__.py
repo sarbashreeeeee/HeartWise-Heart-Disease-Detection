@@ -27,6 +27,7 @@ def create_app():
         from app.blueprints.main import routes
         from app.blueprints.disease_detection import routes
         from app.blueprints.dashboard import routes
+        from app.blueprints.past_reports import routes
 
         # Register blueprints
         from app.blueprints.user_auth import user_auth_bp

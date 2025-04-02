@@ -1,4 +1,6 @@
+import base64
 from datetime import datetime
+import re
 from flask import jsonify, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_required
 from app.blueprints.disease_detection import disease_detection_bp
@@ -119,23 +121,41 @@ def save_report_to_db():
         metric_id = session.get("metric_id")
         print("report_id from session", metric_id)
         timestamp = datetime.now()
-        report = Report(timestamp=timestamp, metric_id=metric_id)
-        report_id = DetectionService.save_report_to_db(report)
-        if not report_id:
+        pdf_base64 = request.form.get("pdf")
+        prefix = "data:application/pdf;base64,"
+        if pdf_base64.startswith(prefix):
+            #  Extract the actual base64 content by slicing the string
+            pdf_base64_content = pdf_base64[len(prefix) :]
+            # Convert base64 to binary
+            pdf_binary = base64.b64decode(pdf_base64_content)
+
+            #  Creating  model instance with the PDF binary data
+            report = Report(
+                pdf_file=pdf_binary, timestamp=timestamp, metric_id=metric_id
+            )
+            report_id = DetectionService.save_report_to_db(report)
+            if not report_id:
+                return jsonify(
+                    {
+                        "success": False,
+                        "message": "Report Not Saved!",
+                    }
+                )
+            else:
+                session["report_id"] = report_id
+                print("report_id from session", session.get("report_id"))
+                return jsonify(
+                    {
+                        "success": True,
+                        "message": "Report Saved!",
+                    }
+                )
+
+        else:
             return jsonify(
                 {
                     "success": False,
-                    "message": "Report Not Saved!",
-                }
-            )
-        else:
-            session["report_id"] = report_id
-            print("report_id from session", session.get("report_id"))
-            return jsonify(
-                {
-                    "success": True,
-                    "message": "Report Saved!",
-                    "redirect": url_for("detect.view_report_page"),
+                    "message": "PDF data not matching!",
                 }
             )
     except Exception as Ex:

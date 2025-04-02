@@ -15,11 +15,15 @@ class Config:
     FLASK_ENV = environ.get("FLASK_ENV")
     FLASK_DEBUG = environ.get("FLASK_DEBUG")
     SECRET_KEY = environ.get("SECRET_KEY")
+    MAX_CONTENT_LENGTH = int(environ.get("MAX_CONTENT_LENGTH"))
+    WTF_CSRF_ENABLED = True
 
     # Database config values
     SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
     SQLALCHEMY_ECHO = environ.get("SQLALCHEMY_ECHO")
     SQLALCHEMY_TRACK_MODIFICATIONS = environ.get("SQLALCHEMY_TRACK_MODIFICATIONS")
+
+    # ML Model config value
     ML_MODEL_FOLDER = environ.get("ML_MODEL_FOLDER")
 
-    WTF_CSRF_ENABLED = True
+    print(MAX_CONTENT_LENGTH)

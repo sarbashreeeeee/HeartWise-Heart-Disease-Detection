@@ -3,7 +3,7 @@
   .form-section {
     transform: translateY(20px);
     opacity: 0;
-    animation: slideIn 0.5s ease forwards;
+    animation: slideIn 0.7s ease forwards;
   }
 
   @keyframes slideIn {
@@ -11,19 +11,6 @@
       transform: translateY(0);
       opacity: 1;
     }
-  }
-
-  .form-section:nth-child(1) {
-    animation-delay: 0.1s;
-  }
-  .form-section:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-  .form-section:nth-child(3) {
-    animation-delay: 0.3s;
-  }
-  .form-section:nth-child(4) {
-    animation-delay: 0.4s;
   }
 
   .input-group:hover {
@@ -537,15 +524,7 @@
 
   // Event listener for generate report button
   document.getElementById("generateReportBtn").addEventListener("click", () => {
-    fetch("save_report_to_db")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data?.success) {
-          window.location.href = data.redirect;
-        } else {
-          console.error("Error saving report to db");
-        }
-      });
+    window.location.href = "{{url_for('detect.view_report_page')}}";
   });
 </script>
 {% endblock %}

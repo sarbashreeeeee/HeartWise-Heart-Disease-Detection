@@ -10,7 +10,6 @@
 
     <script>
       tailwind.config = {
-        darkMode: "class",
         theme: {
           extend: {
             colors: {
@@ -458,6 +457,43 @@
         // Generate pdf from the html content
         html2pdf().from(element).set(options).save();
       }
+      window.onload = function () {
+        const { jsPDF } = window.jspdf;
+        const element = document.getElementById("reportPdfContent");
+        const options = {
+          html2canvas: { scale: 2 },
+          jspdf: { unit: "mm", format: "a4", orientation: "portrait" },
+        };
+
+        html2pdf()
+          .from(element)
+          .set(options)
+          .toPdf()
+          .get("pdf")
+          .then(function (pdf) {
+            // Convert PDF to Base64 for submission
+            const pdfData = pdf.output("datauristring");
+
+            // Create a form to submit the PDF data as POST request
+            const formData = new FormData();
+            formData.append("pdf", pdfData); // Add the PDF as a form data
+
+            const targetUrl = "{{url_for('detect.save_report_to_db')}}";
+
+            // Make the POST request using fetch
+            fetch(targetUrl, {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("Success:", data);
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
+          });
+      };
     </script>
   </body>
 </html>
