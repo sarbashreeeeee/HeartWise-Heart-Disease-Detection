@@ -2,48 +2,59 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 {% endblock %} {% block content %}
-<div
-  class="border border-heartred-100 w-full h-full flex items-center justify-center"
->
-  <canvas id="lineGraph" class="border border-blue-600 m-4 my-4"></canvas>
+<div class="container mx-auto px-4 py-6 shadow-lg bg-white mt-4">
+  <div>
+    <canvas id="lineGraph" class="border-blue-600 m-4 my-4"></canvas>
+  </div>
 
-  <canvas id="optimalGraph" class="border border-heartred-600 m-4 my-4">
-  </canvas>
+  <!-- <div>
+    <canvas id="optimalGraph" class="border border-heartred-600 m-4 my-4">
+    </canvas>
+  </div> -->
 </div>
 <script>
+  LINE_COLOURS = [
+    "#7f00ff",
+    "#4b0082",
+    "#0000ff",
+    "#00ff00",
+    "#FFDB58",
+    "#ffa500",
+    "#e06000",
+  ];
   const ctx = document.getElementById("lineGraph").getContext("2d");
-  const optimalctx = document.getElementById("optimalGraph").getContext("2d");
+  // const optimalctx = document.getElementById("optimalGraph").getContext("2d");
 
-  const optimalChart = new Chart(optimalctx, {
-    type: "line",
-    data: {
-      labels: [], // X-axis labels
-      datasets: [
-        {
-          label: "My Dataset",
-          data: [10, 20, 30], // Y-axis values
-          borderColor: "blue",
-          borderWidth: 2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      barThickness: 50,
+  // const optimalChart = new Chart(optimalctx, {
+  //   type: "line",
+  //   data: {
+  //     labels: [], // X-axis labels
+  //     datasets: [
+  //       {
+  //         label: "My Dataset",
+  //         data: [10, 20, 30], // Y-axis values
+  //         borderColor: "blue",
+  //         borderWidth: 2,
+  //       },
+  //     ],
+  //   },
+  //   options: {
+  //     responsive: true,
+  //     barThickness: 50,
 
-      animation: {
-        duration: 700,
-        easing: "easeOutExpo",
-        x: {
-          from: false,
-        },
-      },
-      scales: {
-        x: { beginAtZero: true },
-        y: { beginAtZero: true },
-      },
-    },
-  });
+  //     animation: {
+  //       duration: 700,
+  //       easing: "easeOutExpo",
+  //       x: {
+  //         from: false,
+  //       },
+  //     },
+  //     scales: {
+  //       x: { beginAtZero: true },
+  //       y: { beginAtZero: true },
+  //     },
+  //   },
+  // });
 
   const myChart = new Chart(ctx, {
     type: "line",
@@ -52,7 +63,7 @@
       datasets: [
         {
           label: "My Dataset",
-          data: [10, 20, 30], // Y-axis values
+          data: [], // Y-axis values
           borderColor: "blue",
           borderWidth: 2,
         },
@@ -70,8 +81,41 @@
         },
       },
       scales: {
-        x: { beginAtZero: true },
-        y: { beginAtZero: true },
+        x: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Date",
+            font: {
+              size: 14,
+              weight: "bold",
+            },
+          },
+        },
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Measurement",
+            font: {
+              size: 14,
+              weight: "bold",
+            },
+          },
+        },
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: "Your health metrics over time",
+          font: {
+            size: 18,
+            weight: "bold",
+          },
+          padding: {
+            bottom: 30,
+          },
+        },
       },
     },
   });
@@ -97,9 +141,7 @@
           .map((col, index) => ({
             label: col, // Column name
             data: data.metrics.map((row) => row[col]), // Values from each row
-            borderColor: `rgb(${(index * 40) % 255}, ${(index * 80) % 255}, ${
-              (index * 120) % 255
-            })`,
+            borderColor: LINE_COLOURS[index],
             fill: false,
           }));
         myChart.data.labels = labels;
