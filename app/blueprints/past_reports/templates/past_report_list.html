@@ -8,21 +8,27 @@
       class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
     >
       <tr>
+        <th scope="col" class="px-6 py-3">S.N.</th>
         <th scope="col" class="px-6 py-3">Report ID</th>
         <th scope="col" class="px-6 py-3">Timestamp</th>
-        <th scope="col" class="px-6 py-3">Metric ID</th>
       </tr>
     </thead>
     <tbody>
       {%for report in reports%}
+
       <tr
         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
       >
-        <td class="px-6 py-4">{{report.id}}</td>
-        <td class="px-6 py-4">{{report.timestamp}}</td>
-        <td class="px-6 py-4">{{report.metric_id}}</td>
-      </tr>
+        <td class="px-6 py-4">{{ loop.index }}</td>
+        <td class="px-6 py-4">
+          <a
+            href="{{ url_for('past_reports.view_past_reports_page', report_id=report.id) }}"
+            >{{report.id}}
+          </a>
+        </td>
 
+        <td class="px-6 py-4">{{report.timestamp}}</td>
+      </tr>
       {%endfor%}
     </tbody>
   </table>

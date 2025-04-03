@@ -31,6 +31,7 @@ class Metric(db.Model):
     heart_rate = db.Column(db.Integer, nullable=False)
     glucose = db.Column(db.Integer, nullable=False)
     timestamp = db.Column(TIMESTAMP, nullable=False)
+    prediction = db.Column(db.Boolean, nullable=True)
 
     # Setting user_id as foreign key
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("user.id"), nullable=False)

@@ -524,7 +524,15 @@
 
   // Event listener for generate report button
   document.getElementById("generateReportBtn").addEventListener("click", () => {
-    window.location.href = "{{url_for('detect.view_report_page')}}";
+    fetch("save_report_to_db")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data?.success) {
+          window.location.href = data.redirect;
+        } else {
+          console.error("Error saving report to db!");
+        }
+      });
   });
 </script>
 {% endblock %}

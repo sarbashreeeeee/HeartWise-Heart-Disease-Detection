@@ -6,6 +6,7 @@ from joblib import load
 import traceback
 import xgboost
 
+from app.models.metric import Metric
 from app.models.report import Report
 
 
@@ -83,4 +84,18 @@ class DetectionService:
 
         except Exception as Ex:
             print(f"Error saving report to database: {Ex}")
+            return False
+
+    @staticmethod
+    def save_pred_to_db(metric_id, pred_result):
+        try:
+            from app import db
+
+            db.session.query(Metric).filter_by(id=metric_id).update(
+                {"prediction": pred_result}
+            )
+            db.session.commit()
+            return True
+        except Exception as Ex:
+            print(f"Error saving prediction to database: {Ex}")
             return False

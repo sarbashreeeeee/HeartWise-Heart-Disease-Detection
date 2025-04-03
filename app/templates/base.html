@@ -151,7 +151,7 @@
                 class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1"
               >
                 <a
-                  href="{{url_for('past_reports.view_past_reports_page')}}"
+                  href="{{url_for('past_reports.view_past_reports_list_page')}}"
                   class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >Health Reports</a
                 >
@@ -217,14 +217,6 @@
       ) {
         html.classList.add("dark");
       }
-
-      // //Mobile menu toggle
-      // const mobileMenuButton = document.getElementById("mobileMenuButton");
-      // const mobileMenu = document.getElementById("mobileMenu");
-
-      // mobileMenuButton.addEventListener("click", () => {
-      //   mobileMenu.classList.toggle("hidden");
-      // });
     </script>
 
     {% block extra_scripts %}{% endblock %}

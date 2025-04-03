@@ -17,7 +17,6 @@ class Report(db.Model):
 
     # Other Columns
     timestamp = db.Column(TIMESTAMP, nullable=False)
-    pdf_file = db.Column(db.LargeBinary, nullable=False)
 
     # Setting metric_id as foreign key
     metric_id = db.Column(
