@@ -9,7 +9,15 @@ from app.blueprints.past_reports import past_reports_bp
 @past_reports_bp.route("/", methods=["GET"])
 @login_required
 def view_past_reports_list_page():
-    reports = Report.query.order_by(Report.timestamp.desc()).all()
+    reports = (
+        Report.query.filter(
+            Report.metric_id.in_(
+                Metric.query.with_entities(Metric.id).filter_by(user_id=current_user.id)
+            )
+        )
+        .order_by(Report.timestamp.desc())
+        .all()
+    )
     return render_template("past_report_list.html", reports=reports)
 
 
