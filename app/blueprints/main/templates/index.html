@@ -10,58 +10,7 @@
   .grid-item:not(:hover) {
     filter: brightness(0.95);
   }
-  .tip-carousel {
-    position: relative;
-    overflow: hidden;
-  }
-  .tip-container {
-    display: flex;
-    transition: transform 0.3s ease;
-  }
-  .tip-item {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-  @media (min-width: 640px) {
-    .tip-item {
-      flex: 0 0 33.333333%;
-      max-width: 33.333333%;
-    }
-  }
-  .tip-navigation {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #ed1515;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    z-index: 10;
-  }
-  .tip-navigation:hover {
-    background-color: rgba(255, 255, 255, 1);
-  }
-  .tip-navigation:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(237, 21, 21, 0.5);
-  }
-  .tip-navigation.prev {
-    left: 10px;
-  }
-  .tip-navigation.next {
-    right: 10px;
-  }
-  .tip-navigation:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+
   .insight-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -87,51 +36,6 @@
   @media (max-width: 768px) {
     .insight-grid {
       grid-template-columns: repeat(2, 1fr);
-    }
-  }
-</style>
-<style>
-  @keyframes heartbeat {
-    0% {
-      transform: scale(1);
-    }
-    25% {
-      transform: scale(1.1);
-    }
-    50% {
-      transform: scale(1);
-    }
-    75% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  .heartbeat {
-    animation: heartbeat 1.5s ease-in-out infinite;
-  }
-  .bg-pulse::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(
-      circle,
-      rgba(255, 59, 59, 0.1) 0%,
-      rgba(255, 59, 59, 0) 70%
-    );
-    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
     }
   }
 </style>
@@ -241,14 +145,14 @@
   <!-- Prevention Measures -->
   <section class="mb-12">
     <h2 class="text-3xl font-semibold mb-6 text-center">Heart Health Tips</h2>
-    <div class="tip-carousel">
-      <div class="tip-container">
-        <div class="tip-item p-2">
+    <div>
+      <div class="grid grid-cols-2">
+        <div class="p-2">
           <div
             class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
           >
             <img
-              src="https://source.unsplash.com/featured/?healthy-food"
+              src="{{url_for('main.static',filename = 'images/balanced_diet.png')}}"
               alt="Healthy Food"
               class="w-full h-48 object-cover"
             />
@@ -261,30 +165,30 @@
             </div>
           </div>
         </div>
-        <div class="tip-item p-2">
+        <div class="p-2">
           <div
             class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
           >
             <img
-              src="https://source.unsplash.com/featured/?exercise"
+              src="{{url_for('main.static',filename = 'images/regular_exercise.png')}}"
               alt="Exercise"
               class="w-full h-48 object-cover"
             />
             <div class="p-6">
               <h3 class="text-xl font-semibold mb-2">Regular Exercise</h3>
               <p>
-                Aim for at least 150 minutes of moderate-intensity aerobic
-                activity per week.
+                Aim for at least 150 minutes of moderate-intensity activity per
+                week, along with lifting at least 3 times a week.
               </p>
             </div>
           </div>
         </div>
-        <div class="tip-item p-2">
+        <div class="p-2">
           <div
             class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
           >
             <img
-              src="https://source.unsplash.com/featured/?meditation"
+              src="{{url_for('main.static',filename = 'images/stress_management.png')}}"
               alt="Stress Management"
               class="w-full h-48 object-cover"
             />
@@ -297,12 +201,12 @@
             </div>
           </div>
         </div>
-        <div class="tip-item p-2">
+        <div class="p-2">
           <div
             class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
           >
             <img
-              src="https://source.unsplash.com/featured/?sleep"
+              src="{{url_for('main.static',filename = 'images/quality_sleep.png')}}"
               alt="Quality Sleep"
               class="w-full h-48 object-cover"
             />
@@ -315,12 +219,12 @@
             </div>
           </div>
         </div>
-        <div class="tip-item p-2">
+        <div class="p-2">
           <div
             class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
           >
             <img
-              src="https://source.unsplash.com/featured/?hydration"
+              src="{{url_for('main.static',filename = 'images/stay_hydrated.png')}}"
               alt="Stay Hydrated"
               class="w-full h-48 object-cover"
             />
@@ -333,12 +237,12 @@
             </div>
           </div>
         </div>
-        <div class="tip-item p-2">
+        <div class="p-2">
           <div
             class="grid-item bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
           >
             <img
-              src="https://source.unsplash.com/featured/?no-smoking"
+              src="{{url_for('main.static',filename = 'images/quit_smoking.png')}}"
               alt="Quit Smoking"
               class="w-full h-48 object-cover"
             />
@@ -352,42 +256,6 @@
           </div>
         </div>
       </div>
-      <button
-        class="tip-navigation prev"
-        id="prevTip"
-        aria-label="Previous tip"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
-      <button class="tip-navigation next" id="nextTip" aria-label="Next tip">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </button>
     </div>
   </section>
 
@@ -447,9 +315,9 @@
       </div>
       <div class="insight-item bg-pink-100 dark:bg-pink-900">
         <h3 class="text-lg font-semibold mb-2 text-pink-600 dark:text-pink-300">
-          Stress Relief
+          Balanced Cholesterol
         </h3>
-        <p>Try meditation, deep breathing, or yoga</p>
+        <p>Maintain healthy cholesterol levels.</p>
       </div>
       <div class="insight-item col-span-2 bg-indigo-100 dark:bg-indigo-900">
         <h3
@@ -460,6 +328,17 @@
         <p>
           Aim for 7-9 hours of quality sleep each night to support
           cardiovascular health
+        </p>
+      </div>
+      <div class="insight-item col-span-2 bg-green-100 dark:bg-green-900">
+        <h3
+          class="text-lg font-semibold mb-2 text-green-600 dark:text-green-300"
+        >
+          Stress Relief
+        </h3>
+        <p>
+          Engage in Yoga, and therapeutic activities to manage your stress
+          levels.
         </p>
       </div>
       <div class="insight-item bg-red-100 dark:bg-red-900">
