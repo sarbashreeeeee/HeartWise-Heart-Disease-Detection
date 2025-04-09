@@ -235,7 +235,7 @@
                 <td class="py-2 px-4 border-b" id="cholesterol">
                   {{cholesterol}} mg/dL
                 </td>
-                <td class="py-2 px-4 border-b">&lt;200 mg/dL</td>
+                <td class="py-2 px-4 border-b">120-200 mg/dL</td>
                 <td class="py-2 px-4 border-b" id="cholesterolStatus">
                   {%if (cholesterol < 120) %}
                   <span
@@ -451,7 +451,7 @@
         // Initialize html to pdf with custom file name
         const report_id = "{{report_id}}";
         const options = {
-          filename: `HeartWise-Report-${report_id}.pdf`, // Set file name dyamically wioth report ID
+          filename: `HeartWise-Report-${report_id}.pdf`, // Set file name dyamically with report ID
           html2canvas: { scale: 2 },
           jspdf: { unit: "mm", format: "a4", orientation: "portrait" },
         };

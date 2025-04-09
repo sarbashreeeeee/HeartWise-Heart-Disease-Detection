@@ -1,5 +1,6 @@
 from flask import jsonify, render_template
 from flask_login import current_user, login_required
+from sqlalchemy import desc
 from app.blueprints.dashboard import dashboard_bp
 from app.models.metric import Metric
 

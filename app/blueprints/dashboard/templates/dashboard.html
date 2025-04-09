@@ -4,16 +4,22 @@
 {% endblock %} {% block content %}
 
 <!--Health Metrics Overtime-->
-<div class="container mx-auto px-4 py-6 shadow-lg bg-white mt-4">
-  <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-    <canvas id="lineGraph" class="border-blue-600 m-4 my-4"></canvas>
-  </div>
-</div>
+<div
+  class="container mx-auto px-4 py-6 shadow-lg bg-white mt-4 flex flex-col justify-center items-end dark:text-gray-100 dark:bg-transparent"
+>
+  <p class="px-4">Last Updated:<span class="px-2" id="lastUpdated"></span></p>
 
-<!-- Health Comparison Section -->
-<div class="container mx-auto px-4 py-6 shadow-lg bg-white mt-4">
-  <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-    <canvas id="comparisonChart" height="300"></canvas>
+  <div class="container mx-auto px-4 py-6 bg-white mt-4">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+      <canvas id="lineGraph" class="m-4 my-4"></canvas>
+    </div>
+  </div>
+
+  <!-- Health Comparison Section -->
+  <div class="container mx-auto px-4 py-6 bg-white mt-4">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+      <canvas id="comparisonChart" class="m-4 my-4"></canvas>
+    </div>
   </div>
 </div>
 
@@ -111,7 +117,7 @@
       datasets: [
         {
           label: "Your Values",
-          data: [120, 80, 72, 180, 100, 22.9],
+          data: [],
           backgroundColor: "rgba(237, 21, 21, 0.7)",
           borderColor: "rgba(237, 21, 21, 1)",
           borderWidth: 1,
@@ -134,15 +140,30 @@
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
       scales: {
         x: {
           grid: {
             display: false,
           },
+          title: {
+            display: true,
+            text: "Metrics",
+            font: {
+              size: 14,
+              weight: "bold",
+            },
+          },
         },
         y: {
           beginAtZero: true,
+          title: {
+            display: true,
+            text: "Measurement",
+            font: {
+              size: 14,
+              weight: "bold",
+            },
+          },
         },
       },
       plugins: {
@@ -201,6 +222,13 @@
           latest["BMI"],
         ];
         comparisonChart.update();
+        document.getElementById("lastUpdated").innerText = new Date(
+          latest["Date"]
+        ).toLocaleString("en-GB", {
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+        });
       }
     } catch (error) {
       console.error("Error fetching metrics for dashboard:", error);
