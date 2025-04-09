@@ -54,5 +54,5 @@ def view_past_reports_page():
     except Exception as Ex:
         print("Error while generating past report: ", Ex)
         return jsonify(
-            {"success": False, "message": "Error while generating past report"}
+            {"success": False, "message": "Error while generating past report!"}
         )
