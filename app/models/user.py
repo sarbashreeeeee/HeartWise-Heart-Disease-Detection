@@ -19,6 +19,12 @@ class User(UserMixin, db.Model):
     # Full name
     full_name = db.Column(db.String(50), nullable=False)
 
+    # DOB
+    dob = db.Column(db.Date, nullable=False)
+
+    # Gender
+    gender = db.Column(db.Enum("Male", "Female", name="gender_enum"), nullable=False)
+
     # Username
     username = db.Column(db.String(50), nullable=False, unique=True)
 

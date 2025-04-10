@@ -175,6 +175,36 @@
               focus:border-heartred-500 transition-colors duration-200" ,
               required= true)}}
             </div>
+
+            <!--DOB-->
+            <div class="group">
+              <!-- input label -->
+              {{form.dob.label ( class="block text-sm font-medium text-gray-700
+              dark:text-gray-300 group-hover:text-heartred-500 transition-colors
+              duration-200")}}
+              <!-- input field -->
+              {{form.dob( class="mt-1 block w-full px-3 py-2 bg-white
+              dark:bg-gray-700 border border-gray-300 dark:border-gray-600
+              rounded-md shadow-sm focus:outline-none focus:ring-heartred-500
+              focus:border-heartred-500 transition-colors duration-200" ,
+              required= true)}}
+            </div>
+
+            <!--gender-->
+            <div class="group">
+              {{ form.gender.label (class="block text-sm font-medium
+              text-gray-700 dark:text-gray-300 group-hover:text-heartred-500
+              transition-colors duration-200")}}
+              <div class="w-full flex justify-around mt-2 space-x-20">
+                {% for subfield in form.gender %}
+                <div class="inline-flex items-center">
+                  {{ subfield( class="form-radio text-heartred-600") }}
+                  <label class="ml-2"> {{ subfield.label.text }} </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
             <!-- email -->
             <div class="group">
               <!-- input label -->
@@ -236,7 +266,7 @@
   </footer>
 
   <!-- JS -->
-  <!--  -->
+  <!--Dark theme toggle button -->
   <script>
     const darkModeToggle = document.getElementById("darkModeToggle");
     const html = document.documentElement;

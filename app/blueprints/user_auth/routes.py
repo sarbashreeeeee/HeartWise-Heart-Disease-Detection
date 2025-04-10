@@ -23,8 +23,15 @@ def handle_register():
         username = register_form.username.data
         email = register_form.email.data
         password = register_form.password.data
+        dob = register_form.dob.data
+        gender = register_form.gender.data
         user = User(
-            full_name=full_name, username=username, email=email, password=password
+            full_name=full_name,
+            username=username,
+            email=email,
+            password=password,
+            dob=dob,
+            gender=gender,
         )
         from app import db
 

@@ -1,5 +1,5 @@
 import base64
-from datetime import datetime
+from datetime import date, datetime
 import re
 from flask import jsonify, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_required
@@ -55,12 +55,12 @@ def make_disease_pred():
 
     if form.validate_on_submit():
         try:
-            print(form.gender.data)
+            print(form.bmi.data)
             if form.cigarettes.data is None:
                 form.cigarettes.data = 0
             metrics = Metric(
-                gender=form.gender.data,
-                age=int(form.age.data),
+                gender=current_user.gender,
+                age=int((date.today() - current_user.dob).days // 365),
                 current_smoker=int(form.smoker.data),
                 cigs_per_day=int(form.cigarettes.data),
                 bp_meds=int(form.bp_meds.data),

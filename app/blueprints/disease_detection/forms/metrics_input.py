@@ -4,20 +4,6 @@ from wtforms.validators import DataRequired, NumberRange, Optional
 
 
 class MetricsInputForm(FlaskForm):
-    # Personal Information
-    age = IntegerField(
-        "Age",
-        validators=[
-            DataRequired(),
-            NumberRange(min=18, max=120, message="Age must be between 18 and 120."),
-        ],
-    )
-    gender = RadioField(
-        "Gender",
-        choices=[("Male", "Male"), ("Female", "Female")],
-        validators=[DataRequired()],
-    )
-
     # Lifestyle Factors
     smoker = RadioField(
         "Current Smoker?",
