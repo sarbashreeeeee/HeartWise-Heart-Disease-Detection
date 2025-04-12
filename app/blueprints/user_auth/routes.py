@@ -33,6 +33,8 @@ def handle_register():
             dob=dob,
             gender=gender,
         )
+        user.set_password(password)
+
         from app import db
 
         db.session.add(user)
@@ -43,9 +45,6 @@ def handle_register():
         print(register_form.errors)
 
     return render_template("register.html", form=register_form)
-
-
-# psd hash yet to implement for register
 
 
 @user_auth_bp.route("/login", methods=["GET"])
@@ -63,8 +62,9 @@ def handle_login():
 
     # Validate the login attempt
     if login_form.validate_on_submit():
+        # print(login_form.username.data, login_form.password.data)
         user = User.query.filter_by(username=login_form.username.data).first()
-        if user and user.password == login_form.password.data:
+        if user and user.check_password(login_form.password.data):
             login_user(user)
             next_page = request.args.get("next")
             return redirect(next_page or url_for("main.index"))
