@@ -33,6 +33,8 @@ class Metric(db.Model):
     timestamp = db.Column(TIMESTAMP, nullable=False)
     prediction = db.Column(db.Boolean, nullable=True)
 
+    reports = db.relationship("Report", cascade="all, delete-orphan")
+
     # Setting user_id as foreign key
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("user.id"), nullable=False)
     user = db.relationship("User")

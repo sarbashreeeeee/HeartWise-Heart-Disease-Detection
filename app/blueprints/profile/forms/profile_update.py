@@ -12,7 +12,7 @@ class ProfileUpdateForm(FlaskForm):
     full_name = StringField(
         "Full Name",
         validators=[
-            Optional("wow"),
+            Optional(),
             Length(min=2, max=100),
         ],
     )

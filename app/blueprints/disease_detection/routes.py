@@ -56,7 +56,7 @@ def make_disease_pred():
     if form.validate_on_submit():
         try:
             print(form.bmi.data)
-            if form.cigarettes.data is None:
+            if form.cigarettes.data is None or int(form.smoker.data) == 0:
                 form.cigarettes.data = 0
             metrics = Metric(
                 gender=current_user.gender,
