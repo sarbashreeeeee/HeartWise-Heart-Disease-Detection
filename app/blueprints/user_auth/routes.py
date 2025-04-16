@@ -41,10 +41,7 @@ def handle_register():
         db.session.commit()  # Create new user
         return redirect(url_for("user_auth.view_login"))
 
-    else:
-        print(register_form.errors)
-
-    return render_template("register.html", form=register_form)
+    return redirect(url_for("user_auth.view_register"))
 
 
 @user_auth_bp.route("/login", methods=["GET"])
@@ -68,9 +65,8 @@ def handle_login():
             login_user(user)
             next_page = request.args.get("next")
             return redirect(next_page or url_for("main.index"))
-        flash("Invalid username/password combination")
-        return render_template("login.html", form=login_form)
-
+        flash("Invalid username/password. Please enter valid Username and Password!")
+        return redirect(url_for("user_auth.view_login"))
     else:
         print(login_form.errors)
 

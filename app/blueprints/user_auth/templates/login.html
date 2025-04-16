@@ -24,64 +24,15 @@
               950: "#4b0404",
             },
           },
-          animation: {
-            "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-          },
         },
       },
     };
   </script>
-  <style>
-    @keyframes heartbeat {
-      0% {
-        transform: scale(1);
-      }
-      25% {
-        transform: scale(1.1);
-      }
-      50% {
-        transform: scale(1);
-      }
-      75% {
-        transform: scale(1.2);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-    .heartbeat {
-      animation: heartbeat 1.5s ease-in-out infinite;
-    }
-    .bg-pulse::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(
-        circle,
-        rgba(255, 59, 59, 0.1) 0%,
-        rgba(255, 59, 59, 0) 70%
-      );
-      animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    @keyframes pulse {
-      0%,
-      100% {
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-    }
-  </style>
 </head>
 
 <body
   class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col relative overflow-hidden"
 >
-  <div class="bg-pulse absolute inset-0 z-0"></div>
   <header class="bg-white dark:bg-gray-800 shadow-md relative z-10">
     <nav class="container mx-auto px-4 sm:px-6 py-3">
       <div class="flex items-center justify-between">
@@ -92,7 +43,7 @@
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8 sm:h-10 sm:w-10 mr-2 heartbeat"
+              class="h-8 w-8 sm:h-10 sm:w-10 mr-2"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -129,14 +80,16 @@
       </div>
     </nav>
   </header>
-  <main class="flex-grow container mx-auto px-4 sm:px-6 py-8 relative z-10">
+  <main
+    class="flex-grow container mx-auto px-4 sm:px-6 py-8 relative z-10 flex justify-center items-center"
+  >
     <div class="max-w-md mx-auto">
       <div
         class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden backdrop-filter backdrop-blur-lg bg-opacity-30 dark:bg-opacity-30 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"
       >
         <div class="p-6 sm:p-8">
           <h2
-            class="text-2xl sm:text-3xl font-bold text-center mb-2 text-heartred-600 dark:text-heartred-400 animate-pulse-slow"
+            class="text-2xl sm:text-3xl font-bold text-center mb-2 text-heartred-600 dark:text-heartred-400"
           >
             Welcome!
           </h2>
@@ -207,6 +160,17 @@
               >Register</a
             >
           </p>
+          <!-- Error Modal -->
+          {%if get_flashed_messages()%}
+          <div
+            id="errorModal"
+            class="border p-4 mt-4 rounded-md bg-opacity-50 overflow-y-auto flex flex-col items-center justify-center text-heartred-600"
+          >
+            {%for message in get_flashed_messages()%}
+            <p class="text-center">{{message}}</p>
+            {%endfor%}
+          </div>
+          {%endif%}
         </div>
       </div>
     </div>
