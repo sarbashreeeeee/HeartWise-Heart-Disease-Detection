@@ -47,7 +47,7 @@
               d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
             />
           </svg>
-          <h3 class="text-lg font-semibold">BMI Calculator</h3>
+          <h3 class="text-lg font-semibold">BMI(Body Mass Index) Calculator</h3>
         </div>
         <p class="text-sm text-gray-600 dark:text-gray-300">
           BMI = weight(kg) / (height(m))²
@@ -56,6 +56,51 @@
           Example: For a person weighing 50kg and height 1.5m, BMI = 50/(1.5)² =
           22.22
         </p>
+        <!-- BMI Calculator -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div
+            class="border border-gray-100 input-group p-3 rounded-lg bg-white dark:bg-gray-700"
+          >
+            <!-- input label -->
+            <label
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              {{ form.height.label }}
+            </label>
+            <!-- input field -->
+            {{form.height( id = "bmiHeight", class="mt-1 block w-full rounded-md
+            border border-gray-300 shadow-sm focus:border-heartred-500
+            focus:ring-heartred-500 dark:bg-gray-600 dark:border-gray-500
+            dark:text-white" )}}
+          </div>
+
+          <div
+            class="border border-gray-100 input-group p-3 rounded-lg bg-white dark:bg-gray-700"
+          >
+            <!-- input label -->
+            <label
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              {{ form.weight.label }}
+            </label>
+            <!-- input field -->
+            {{form.weight( id = "bmiWeight", class="mt-1 block w-full rounded-md
+            border border-gray-300 shadow-sm focus:border-heartred-500
+            focus:ring-heartred-500 dark:bg-gray-600 dark:border-gray-500
+            dark:text-white" )}}
+          </div>
+
+          <div
+            id="bmiOutput"
+            class="border border-gray-100 p-3 rounded-lg bg-white dark:bg-gray-700 flex flex-col justify-between"
+          >
+            <label
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Your BMI
+            </label>
+          </div>
+        </div>
       </div>
 
       <form id="metricsInputForm" class="space-y-8" action="" method="POST">
@@ -397,6 +442,52 @@
 
 {% endblock %} {% block extra_scripts %}
 <script>
+  // Get the input elements
+  const heightInput = document.getElementById("bmiHeight");
+  const weightInput = document.getElementById("bmiWeight");
+  const bmiOutput = document.getElementById("bmiOutput");
+
+  // Function to calculate BMI
+  function calculateBMI() {
+    const height = parseFloat(heightInput.value);
+    const weight = parseFloat(weightInput.value);
+
+    if (height && weight && height > 0 && weight > 0) {
+      // Calculate BMI: weight(kg) / (height(m))²
+      const bmi = weight / (height * height);
+
+      // Display the result with 2 decimal places
+      const bmiValueElement =
+        bmiOutput.querySelector("div.bmi-value") ||
+        document.createElement("div");
+      bmiValueElement.classList.add(
+        "bmi-value",
+        "text-lg",
+        "font-semibold",
+        "text-heartred-600",
+        "dark:text-heartred-400",
+        "mt-2"
+      );
+      bmiValueElement.textContent = bmi.toFixed(2);
+
+      if (!bmiOutput.contains(bmiValueElement)) {
+        bmiOutput.appendChild(bmiValueElement);
+      }
+    } else {
+      // Clear the result if inputs are invalid
+      const bmiValueElement = bmiOutput.querySelector("div.bmi-value");
+      if (bmiValueElement) {
+        bmiValueElement.textContent = "";
+      }
+    }
+  }
+
+  // Add event listeners to inputs for real-time updates
+  heightInput.addEventListener("input", calculateBMI);
+  weightInput.addEventListener("input", calculateBMI);
+
+  calculateBMI();
+
   // Show/hide cigarettes per day field based on smoking status
   document.querySelectorAll('input[name="smoker"]').forEach((radio) => {
     radio.addEventListener("change", function () {

@@ -42,7 +42,7 @@ def update_profile():
                             "message": "Current Password does not match!",
                         }
                     )
-            # commit wala code hatau ani error case dekhau
+
             from app import db
 
             db.session.commit()
@@ -69,7 +69,7 @@ def update_profile():
         return jsonify(
             {
                 "success": False,
-                "message": "Profile Form Validation Failed!",
+                "message": "Invalid Data!",
             }
         )
 

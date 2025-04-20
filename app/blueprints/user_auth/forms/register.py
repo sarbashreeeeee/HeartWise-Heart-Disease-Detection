@@ -26,14 +26,14 @@ class RegisterForm(FlaskForm):
         "Full Name",
         validators=[
             DataRequired(message="Please enter your name!"),
-            Length(min=2, max=100, message="Name must be more than 2 characters!"),
+            Length(min=3, max=100, message="Name must be more than 3 characters!"),
         ],
     )
     username = StringField(
         "Username",
         validators=[
             DataRequired(message="Please enter your username!"),
-            Length(min=2, max=100),
+            Length(min=3, max=100, message="Username must be more than 3 characters!"),
         ],
     )
     email = StringField(

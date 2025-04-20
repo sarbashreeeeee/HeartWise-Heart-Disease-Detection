@@ -13,14 +13,14 @@ class ProfileUpdateForm(FlaskForm):
         "Full Name",
         validators=[
             Optional(),
-            Length(min=2, max=100),
+            Length(min=3, max=100, message="Name must be more than 3 characters!"),
         ],
     )
     username = StringField(
         "Username",
         validators=[
             Optional(),
-            Length(min=2, max=100),
+            Length(min=3, max=100, message="Username must be more than 3 characters!"),
         ],
     )
     email = StringField(

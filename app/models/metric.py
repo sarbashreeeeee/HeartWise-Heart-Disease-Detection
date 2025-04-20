@@ -32,6 +32,8 @@ class Metric(db.Model):
     glucose = db.Column(db.Integer, nullable=False)
     timestamp = db.Column(TIMESTAMP, nullable=False)
     prediction = db.Column(db.Boolean, nullable=True)
+    height = db.Column(db.Float, nullable=True)
+    weight = db.Column(db.Float, nullable=True)
 
     reports = db.relationship("Report", cascade="all, delete-orphan")
 

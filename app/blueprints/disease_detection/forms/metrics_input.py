@@ -4,9 +4,34 @@ from wtforms.validators import DataRequired, NumberRange, Optional
 
 
 class MetricsInputForm(FlaskForm):
+    # Height and Weight for BMI Calculator
+    height = IntegerField(
+        "Height (in meter)",
+        validators=[
+            Optional(),
+            NumberRange(
+                min=0.1,
+                max=5,
+                message="Please enter a valid height",
+            ),
+        ],
+    )
+
+    weight = IntegerField(
+        "Weight (in kg)",
+        validators=[
+            Optional(),
+            NumberRange(
+                min=1,
+                max=300,
+                message="Please enter a valid weight",
+            ),
+        ],
+    )
+
     # Lifestyle Factors
     smoker = RadioField(
-        "Current Smoker?",
+        "Are you a current smoker?",
         choices=[(1, "Yes"), (0, "No")],
         validators=[DataRequired()],
     )
@@ -24,22 +49,24 @@ class MetricsInputForm(FlaskForm):
 
     # Medical History
     bp_meds = RadioField(
-        "Taking BP Medicines?",
+        "Are you currently taking any Blood Pressure medicines?",
         choices=[(1, "Yes"), (0, "No")],
         validators=[DataRequired()],
     )
     stroke = RadioField(
-        "Previous Stroke History?",
+        "Do you have previous history of Stroke?",
         choices=[(1, "Yes"), (0, "No")],
         validators=[DataRequired()],
     )
     hypertension = RadioField(
-        "Hypertension?",
+        "Do you suffer from Hypertension?",
         choices=[(1, "Yes"), (0, "No")],
         validators=[DataRequired()],
     )
     diabetes = RadioField(
-        "Diabetes?", choices=[(1, "Yes"), (0, "No")], validators=[DataRequired()]
+        "Do you have Diabetes?",
+        choices=[(1, "Yes"), (0, "No")],
+        validators=[DataRequired()],
     )
 
     # Current Health Metrics
