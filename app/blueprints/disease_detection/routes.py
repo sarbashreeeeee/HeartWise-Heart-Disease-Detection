@@ -1,7 +1,7 @@
 import base64
 from datetime import date, datetime
 import re
-from flask import jsonify, redirect, render_template, request, session, url_for
+from flask import flash, jsonify, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_required
 from app.blueprints.disease_detection import disease_detection_bp
 from app.blueprints.disease_detection.forms.metrics_input import MetricsInputForm
@@ -55,10 +55,13 @@ def make_disease_pred():
 
     if form.validate_on_submit():
         try:
-            print(form.bmi.data)
+            print(form.height.data)
+            print(form.weight.data)
             if form.cigarettes.data is None or int(form.smoker.data) == 0:
                 form.cigarettes.data = 0
             metrics = Metric(
+                height=float(form.height.data) if form.height.data else None,
+                weight=float(form.weight.data) if form.weight.data else None,
                 gender=current_user.gender,
                 age=int((date.today() - current_user.dob).days // 365),
                 current_smoker=int(form.smoker.data),
@@ -120,7 +123,10 @@ def make_disease_pred():
 
     else:
         print("Form Validation Failed!")
-        return jsonify({"success": False, "message": "Form Validation Failed!"})
+        # flash("tf wrong with you")
+
+        return jsonify({"success": False, "message": form.height.errors})
+    # return render_template("metrics_input.html", form=form)
 
 
 @disease_detection_bp.route("/save_report_to_db", methods=["GET"])

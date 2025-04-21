@@ -5,14 +5,14 @@ from wtforms.validators import DataRequired, NumberRange, Optional
 
 class MetricsInputForm(FlaskForm):
     # Height and Weight for BMI Calculator
-    height = IntegerField(
+    height = FloatField(
         "Height (in meter)",
         validators=[
             Optional(),
             NumberRange(
                 min=0.1,
                 max=5,
-                message="Please enter a valid height",
+                message="Please enter a valid height!",
             ),
         ],
     )
@@ -24,7 +24,7 @@ class MetricsInputForm(FlaskForm):
             NumberRange(
                 min=1,
                 max=300,
-                message="Please enter a valid weight",
+                message="Please enter a valid weight!",
             ),
         ],
     )
