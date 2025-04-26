@@ -123,7 +123,7 @@ def make_disease_pred():
 
     else:
         print("Form Validation Failed!")
-        # flash("tf wrong with you")
+        # flash("wowowowowow")
 
         return jsonify({"success": False, "message": form.height.errors})
     # return render_template("metrics_input.html", form=form)

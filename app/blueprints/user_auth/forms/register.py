@@ -44,7 +44,11 @@ class RegisterForm(FlaskForm):
         ],
     )
     password = PasswordField(
-        "Password", validators=[DataRequired(message="Please enter your password!")]
+        "Password",
+        validators=[
+            DataRequired(message="Please enter your password!"),
+            Length(min=8, message="Password must be at least 8 characters long!"),
+        ],
     )
 
     register_btn = SubmitField("Register")

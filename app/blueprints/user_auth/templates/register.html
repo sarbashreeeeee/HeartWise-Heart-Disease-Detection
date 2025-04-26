@@ -216,6 +216,16 @@
               >Log in</a
             >
           </p>
+          {%if get_flashed_messages()%}
+          <div
+            id="errorModal"
+            class="border p-4 mt-4 rounded-md bg-opacity-50 overflow-y-auto flex flex-col items-center justify-center text-heartred-600"
+          >
+            {%for message in get_flashed_messages()%}
+            <p class="text-center">{{message}}</p>
+            {%endfor%}
+          </div>
+          {%endif%}
         </div>
       </div>
     </div>

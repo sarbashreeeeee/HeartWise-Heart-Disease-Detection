@@ -15,7 +15,9 @@ def dashboard():
 @login_required
 def get_metrics():
     try:
-        data = Metric.query.filter_by(user_id=current_user.id)
+        data = Metric.query.filter_by(user_id=current_user.id).order_by(
+            Metric.timestamp.asc()
+        )
         rows = []
 
         for row in data:

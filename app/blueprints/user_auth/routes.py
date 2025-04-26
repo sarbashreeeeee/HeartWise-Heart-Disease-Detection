@@ -4,6 +4,7 @@ from app.blueprints.user_auth import user_auth_bp
 from app.blueprints.user_auth.forms.login import LoginForm
 from app.blueprints.user_auth.forms.register import RegisterForm
 from app.models.user import User
+from datetime import date
 
 
 @user_auth_bp.route("/register", methods=["GET"])
@@ -19,29 +20,56 @@ def handle_register():
     """POST requests validate form & user creation."""
     register_form = RegisterForm()
     if register_form.validate_on_submit():
-        full_name = register_form.full_name.data
-        username = register_form.username.data
-        email = register_form.email.data
-        password = register_form.password.data
-        dob = register_form.dob.data
-        gender = register_form.gender.data
-        user = User(
-            full_name=full_name,
-            username=username,
-            email=email,
-            password=password,
-            dob=dob,
-            gender=gender,
+        username_exists = User.query.filter_by(
+            username=register_form.username.data
+        ).first()
+        email_exists = User.query.filter_by(email=register_form.email.data).first()
+        has_number = any(c.isdigit() for c in register_form.password.data)
+        has_special = any(not c.isalnum() for c in register_form.password.data)
+        has_upper = any(c.isupper() for c in register_form.password.data)
+        has_lower = any(c.islower() for c in register_form.password.data)
+        strong_password = has_number and has_special and has_lower and has_upper
+        valid_dob = (
+            True
+            if (((date.today() - register_form.dob.data).days) / 365) >= 18
+            else False
         )
-        user.set_password(password)
+        if username_exists:
+            flash("Invalid Username.")
+            return render_template("register.html", form=register_form)
+        elif email_exists:
+            flash("Invalid Email.")
+            return render_template("register.html", form=register_form)
+        elif not strong_password:
+            flash("Weak Password.")
+            return render_template("register.html", form=register_form)
+        elif not valid_dob:
+            flash("Invalid DOB.")
+            return render_template("register.html", form=register_form)
+        else:
+            full_name = register_form.full_name.data
+            username = register_form.username.data
+            email = register_form.email.data
+            password = register_form.password.data
+            dob = register_form.dob.data
+            gender = register_form.gender.data
+            user = User(
+                full_name=full_name,
+                username=username,
+                email=email,
+                password=password,
+                dob=dob,
+                gender=gender,
+            )
+            user.set_password(password)
 
-        from app import db
+            from app import db
 
-        db.session.add(user)
-        db.session.commit()  # Create new user
-        return redirect(url_for("user_auth.view_login"))
-
-    return redirect(url_for("user_auth.view_register"))
+            db.session.add(user)
+            db.session.commit()  # Create new user
+            return redirect(url_for("user_auth.view_login"))
+    else:
+        return render_template("register.html", form=register_form)
 
 
 @user_auth_bp.route("/login", methods=["GET"])

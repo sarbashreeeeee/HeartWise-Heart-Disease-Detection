@@ -4,6 +4,5 @@ from app.blueprints.main import main_bp
 
 
 @main_bp.route("/", methods=["GET"])
-@login_required
 def index():
     return render_template("index.html")
