@@ -123,10 +123,8 @@ def make_disease_pred():
 
     else:
         print("Form Validation Failed!")
-        # flash("wowowowowow")
 
-        return jsonify({"success": False, "message": form.height.errors})
-    # return render_template("metrics_input.html", form=form)
+        return render_template("metrics_input.html", form=form)
 
 
 @disease_detection_bp.route("/save_report_to_db", methods=["GET"])

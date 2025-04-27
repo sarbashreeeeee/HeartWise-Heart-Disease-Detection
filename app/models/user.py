@@ -34,7 +34,7 @@ class User(UserMixin, db.Model):
     # Password
     password = db.Column(db.String(300), nullable=False)
 
-    metrics = db.relationship("Metric", cascade="all, delete-orphan")
+    # metrics = db.relationship("Metric", cascade="all, delete-orphan")
 
     def set_password(self, password):
         """Create hashed password."""

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, FloatField, RadioField, StringField, SubmitField
+from wtforms import IntegerField, FloatField, RadioField, DecimalField, SubmitField
 from wtforms.validators import DataRequired, NumberRange, Optional
 
 
@@ -125,7 +125,7 @@ class MetricsInputForm(FlaskForm):
             ),
         ],
     )
-    bmi = FloatField(
+    bmi = DecimalField(
         "BMI",
         validators=[
             DataRequired(),

@@ -27,3 +27,11 @@ class Config:
     ML_MODEL_FOLDER = environ.get("ML_MODEL_FOLDER")
 
     print(MAX_CONTENT_LENGTH)
+
+
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    WTF_CSRF_ENABLED = False
+    SECRET_KEY = "test-secret"

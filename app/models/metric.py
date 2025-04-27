@@ -35,7 +35,7 @@ class Metric(db.Model):
     height = db.Column(db.Float, nullable=True)
     weight = db.Column(db.Float, nullable=True)
 
-    reports = db.relationship("Report", cascade="all, delete-orphan")
+    # reports = db.relationship("Report", cascade="all, delete-orphan")
 
     # Setting user_id as foreign key
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("user.id"), nullable=False)
