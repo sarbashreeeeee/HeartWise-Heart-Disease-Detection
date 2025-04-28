@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, NumberRange, Optional
 
 class MetricsInputForm(FlaskForm):
     # Height and Weight for BMI Calculator
-    height = FloatField(
+    height = DecimalField(
         "Height (in meter)",
         validators=[
             Optional(),

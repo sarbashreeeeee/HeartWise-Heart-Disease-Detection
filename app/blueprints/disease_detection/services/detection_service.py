@@ -11,8 +11,11 @@ from app.models.report import Report
 
 
 class DetectionService:
-    model_directory = current_app.config["ML_MODEL_FOLDER"]
-    disease_pred_model = load(os.path.join(model_directory, "PredModel.joblib"))
+    @classmethod
+    def load_model(cls):
+        model_directory = current_app.config["ML_MODEL_FOLDER"]
+        disease_pred_model = load(os.path.join(model_directory, "PredModel.joblib"))
+        return disease_pred_model
 
     @staticmethod
     def pred_disease(metrics):
