@@ -22,7 +22,7 @@ class DetectionService:
         """metrics parameter is an object of the class metric.py"""
         try:
             df = DetectionService.map_column_names(metrics)
-            pred = DetectionService.disease_pred_model.predict(df)[0]
+            pred = DetectionService.load_model().predict(df)[0]
             print(pred)
             return pred
         except Exception as Ex:
